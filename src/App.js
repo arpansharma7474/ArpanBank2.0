@@ -1,12 +1,9 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-} from 'react-native';
+import Router from './navigation/Router'
 
 const App = () => {
   return (
-    <View />
+    <Router />
   );
 };
 
