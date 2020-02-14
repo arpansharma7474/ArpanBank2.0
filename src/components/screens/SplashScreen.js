@@ -1,18 +1,19 @@
 import React from 'react'
 import {
-    View,
-    Text
+    ImageBackground
 } from 'react-native'
 import WrapperComponent from '../WrapperComponent'
+import config from '../../utils/config'
 
 const SplashScreen = props => {
-
     return (
-        <View>
-            <Text>
-                This is Splash Screen
-            </Text>
-        </View>
+        <ImageBackground
+            style={{
+                height: config.constants.height,
+                width: config.constants.width
+            }}
+            source={require("../../assets/ic_splash.png")}
+        />
     )
 }
 

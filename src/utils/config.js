@@ -1,3 +1,8 @@
+
+import {
+  Dimensions
+} from 'react-native'
+
 export default {
   colors: {
     THEME_COLOR: 'white',
@@ -63,6 +68,7 @@ export default {
     api_post_successful: 200,
   },
   constants: {
-
+    height: Dimensions.get("window").height,
+    width: Dimensions.get("window").width
   },
 };
