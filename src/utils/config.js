@@ -1,8 +1,8 @@
 export default {
   colors: {
-    THEME_COLOR: '',
-    TEXT_COLOR: '',
-    BACKGROUND_COLOR: '',
+    THEME_COLOR: 'white',
+    TEXT_COLOR: 'black',
+    BACKGROUND_COLOR: 'white',
   },
   strings: {
     base_url: "",
@@ -63,6 +63,6 @@ export default {
     api_post_successful: 200,
   },
   constants: {
-    
+
   },
 };

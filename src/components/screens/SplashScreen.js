@@ -3,9 +3,10 @@ import {
     View,
     Text
 } from 'react-native'
+import WrapperComponent from '../WrapperComponent'
 
-export default SplashScreen = props => {
-    
+const SplashScreen = props => {
+
     return (
         <View>
             <Text>
@@ -14,3 +15,5 @@ export default SplashScreen = props => {
         </View>
     )
 }
+
+export default WrapperComponent(SplashScreen)

@@ -1,10 +1,11 @@
 import React from 'react'
+import WrapperComponent from '../WrapperComponent'
 import {
     View,
     Text
 } from 'react-native'
 
-export default LoginScreen = props => {
+const LoginScreen = props => {
     return (
         <View>
             <Text>
@@ -13,3 +14,5 @@ export default LoginScreen = props => {
         </View>
     )
 }
+
+export default WrapperComponent(LoginScreen)
