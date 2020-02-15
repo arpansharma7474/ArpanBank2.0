@@ -1,4 +1,4 @@
-package com.arpanbankii;
+package com.arpanbank;
 
 import com.facebook.react.ReactActivity;
 

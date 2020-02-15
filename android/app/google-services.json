@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "163923950955",
+    "firebase_url": "https://arpanbank-ac07f.firebaseio.com",
+    "project_id": "arpanbank-ac07f",
+    "storage_bucket": "arpanbank-ac07f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:163923950955:android:14c2cb90ebf58a03",
+        "android_client_info": {
+          "package_name": "com.arpanbank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "163923950955-2duq15g0e4ijar8gvovmaog4p91grb72.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXBAzWiYIN8L7syfOERIGBmKzpkCUE6KI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "163923950955-2duq15g0e4ijar8gvovmaog4p91grb72.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "163923950955-lnucfn0ic2sfi10i579m6evoctrfi96c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.IOSTest"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

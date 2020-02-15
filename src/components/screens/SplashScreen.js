@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
-    ImageBackground
+    ImageBackground,
+    TouchableOpacity
 } from 'react-native'
 import WrapperComponent from '../WrapperComponent'
 import config from '../../utils/config'
 
 const SplashScreen = props => {
+
+    useEffect(() => {
+        setTimeout(() => {
+            props.navigation.navigate("Login")
+        }, 1000)
+    }, []);
+
     return (
         <ImageBackground
             style={{
