@@ -12,7 +12,7 @@ export const googleSignin = async () => {
         const googleUser = await firebase.auth().signInWithCredential(credential)
         const userData = googleUser.user.toJSON().providerData[0]
 
-        log(userData, "google res")
+        console.log(userData, "google res")
         return {
             email: userData.email,
             name: userData.displayName,
@@ -21,9 +21,10 @@ export const googleSignin = async () => {
             profile_picture: userData.photoURL
         }
     } catch (e) {
+        console.log(e, "google login error")
         if (!e.code === statusCodes.SIGN_IN_CANCELLED) {
             if (e.toString().startsWith("Error: RNGoogleSignInError"))
-                log(e, "error")
+                console.log(e, "error")
             else
                 throw e;
         }

@@ -20,7 +20,7 @@ const LoginScreen = props => {
             <GoogleSigninButton
                 style={{ height: 60, marginTop: 50 }}
                 size={GoogleSigninButton.Size.Wide}
-                // color={GoogleSigninButton.Color.Dark}
+                color={GoogleSigninButton.Color.Dark}
                 onPress={() => onSignInPressed()}
             />
         </View>
