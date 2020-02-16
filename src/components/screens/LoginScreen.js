@@ -6,7 +6,9 @@ import {
     StyleSheet
 } from 'react-native'
 import { GoogleSigninButton } from '@react-native-community/google-signin';
-import { googleSignin } from '../../utils/SocialLogin'
+import { googleLogin } from '../../redux/actions/AuthActions'
+import { connect } from 'react-redux'
+
 
 const LoginScreen = props => {
     return (
@@ -21,17 +23,26 @@ const LoginScreen = props => {
                 style={{ height: 60, marginTop: 50 }}
                 size={GoogleSigninButton.Size.Wide}
                 color={GoogleSigninButton.Color.Dark}
-                onPress={() => onSignInPressed()}
+                onPress={() => onSignInPressed(props)}
             />
         </View>
     )
 }
 
-const onSignInPressed = () => {
-    googleSignin()
+const onSignInPressed = props => {
+    props.googleLogin()
+        .then(res => {
+            console.log(res, "Response")
+        })
 }
 
-export default WrapperComponent(LoginScreen)
+function mapStateToProps(state) {
+    return {
+        Loading: state.LoadingReducer.loadingStatus,
+    };
+}
+
+export default connect(mapStateToProps, { googleLogin })(WrapperComponent(LoginScreen))
 
 const styles = StyleSheet.create({
     heading_text: {
