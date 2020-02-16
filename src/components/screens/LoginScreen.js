@@ -32,13 +32,14 @@ const LoginScreen = props => {
 const onSignInPressed = props => {
     props.googleLogin()
         .then(res => {
-            console.log(res, "Response")
+            console.log(res, "user")
         })
 }
 
 function mapStateToProps(state) {
     return {
         Loading: state.LoadingReducer.loadingStatus,
+        User: state.persistedReducer
     };
 }
 

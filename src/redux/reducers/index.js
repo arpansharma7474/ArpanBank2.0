@@ -6,9 +6,15 @@ import storage from "redux-persist/lib/storage";
 import LoadingReducer from './LoadingReducer'
 import UserDetailsReducer from './UserDetailsReducer'
 
-const persistConfig = { key: "persistedReducer", version: 1, };
+// import AsyncStorage from '@react-native-community/async-storage';
+
+const persistConfig = {
+    storage: storage,
+    key: "persistedReducer",
+    version: 1,
+};
 
 export default combineReducers({
     LoadingReducer: LoadingReducer,
-    persistedReducer: persistReducer({ ...persistConfig, storage }, UserDetailsReducer)
+    persistedReducer: persistReducer(persistConfig, UserDetailsReducer)
 })

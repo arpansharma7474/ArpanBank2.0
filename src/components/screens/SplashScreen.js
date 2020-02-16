@@ -5,11 +5,13 @@ import {
 } from 'react-native'
 import WrapperComponent from '../WrapperComponent'
 import config from '../../utils/config'
+import { connect } from 'react-redux'
 
 const SplashScreen = props => {
 
     useEffect(() => {
         setTimeout(() => {
+            console.log(props.User, "props on splash")
             props.navigation.navigate("Login")
         }, 1000)
     }, []);
@@ -25,4 +27,10 @@ const SplashScreen = props => {
     )
 }
 
-export default WrapperComponent(SplashScreen)
+function mapStateToProps(state) {
+    return {
+        User: state.persistedReducer.userDetails
+    };
+}
+
+export default connect(mapStateToProps, {})(WrapperComponent(SplashScreen))

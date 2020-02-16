@@ -16,7 +16,6 @@ export const googleLogin = (googleObject) => {
         try {
             // const device_token = await firebase.messaging().getToken();
             const loginResult = await googleSignin()
-            console.log(loginResult, "LOgin Result")
             dispatch({ type: LOADING_STATUS, payload: false });
             persistUser(dispatch, loginResult);
             return { success: loginResult };
