@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>163923950955-p89u0outhvlh146ac07gbtia0qvi0q18.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.163923950955-p89u0outhvlh146ac07gbtia0qvi0q18</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>163923950955-eh738ta5jvf022nit1o2us80v2qkb3ns.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDJgdpHBjHF3yOZ_USV1rDONnUfbm862Es</string>
+	<key>GCM_SENDER_ID</key>
+	<string>163923950955</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.ArpanBank</string>
+	<key>PROJECT_ID</key>
+	<string>arpanbank-ac07f</string>
+	<key>STORAGE_BUCKET</key>
+	<string>arpanbank-ac07f.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:163923950955:ios:62df7ad73ffc89d1</string>
+	<key>DATABASE_URL</key>
+	<string>https://arpanbank-ac07f.firebaseio.com</string>
+</dict>
+</plist>

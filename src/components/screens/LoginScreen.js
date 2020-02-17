@@ -20,7 +20,7 @@ const LoginScreen = props => {
             <Text style={styles.heading_text}>ArpanBank</Text>
             <Text style={styles.descrip_text}>We pay all Food finances for Zapbuild employees without any fees. You just pay at the end of the week</Text>
             <GoogleSigninButton
-                style={{ height: 60, marginTop: 50 }}
+                style={{ marginTop: 50 }}
                 size={GoogleSigninButton.Size.Wide}
                 color={GoogleSigninButton.Color.Dark}
                 onPress={() => onSignInPressed(props)}

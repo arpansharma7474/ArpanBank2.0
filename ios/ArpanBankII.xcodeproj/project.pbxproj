@@ -18,6 +18,11 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* ArpanBankIITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ArpanBankIITests.m */; };
+		2E78DEB923FA559100B54027 /* Monaco.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E78DEB823FA557E00B54027 /* Monaco.ttf */; };
+		2E78DEBA23FA559200B54027 /* Monaco.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E78DEB823FA557E00B54027 /* Monaco.ttf */; };
+		2E78DEBB23FA559200B54027 /* Monaco.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E78DEB823FA557E00B54027 /* Monaco.ttf */; };
+		2E78DEBC23FA559300B54027 /* Monaco.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E78DEB823FA557E00B54027 /* Monaco.ttf */; };
+		2E78DEBE23FA56FA00B54027 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E78DEBD23FA56FA00B54027 /* GoogleService-Info.plist */; };
 		6CD0AF3E60839F15796CD387 /* libPods-ArpanBankIITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B9AC3A81F4B3D5ED4F4EC39 /* libPods-ArpanBankIITests.a */; };
 		D405FF62A5F97DE0493DE0BF /* libPods-ArpanBankII.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95BC8DFC5AD580D31FA5C440 /* libPods-ArpanBankII.a */; };
 /* End PBXBuildFile section */
@@ -55,6 +60,8 @@
 		1D387D39DE901A719335B387 /* libPods-ArpanBankII-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ArpanBankII-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* ArpanBankII-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ArpanBankII-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* ArpanBankII-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ArpanBankII-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E78DEB823FA557E00B54027 /* Monaco.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Monaco.ttf; path = ../../android/app/src/main/assets/fonts/Monaco.ttf; sourceTree = "<group>"; };
+		2E78DEBD23FA56FA00B54027 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3B9AC3A81F4B3D5ED4F4EC39 /* libPods-ArpanBankIITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ArpanBankIITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		403FD6481DE00376783C1CE1 /* Pods-ArpanBankII-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArpanBankII-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ArpanBankII-tvOS/Pods-ArpanBankII-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		676AC68A34A8D145F324597E /* Pods-ArpanBankII-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArpanBankII-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-ArpanBankII-tvOSTests/Pods-ArpanBankII-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -125,6 +132,7 @@
 		13B07FAE1A68108700A75B9A /* ArpanBankII */ = {
 			isa = PBXGroup;
 			children = (
+				2E78DEBD23FA56FA00B54027 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -149,6 +157,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2E78DEB723FA556F00B54027 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				2E78DEB823FA557E00B54027 /* Monaco.ttf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
 		61C6F8828B45EDC1A64A0839 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,7 +177,6 @@
 				02EF23BED0D7E534B6715CCD /* Pods-ArpanBankIITests.debug.xcconfig */,
 				D396FFC14863DA180C3935BA /* Pods-ArpanBankIITests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -175,6 +190,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				2E78DEB723FA556F00B54027 /* fonts */,
 				13B07FAE1A68108700A75B9A /* ArpanBankII */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* ArpanBankIITests */,
@@ -230,6 +246,7 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				D0A472E574B2286F5239A6E1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -308,6 +325,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -329,6 +347,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E78DEBA23FA559200B54027 /* Monaco.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,7 +356,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				2E78DEBE23FA56FA00B54027 /* GoogleService-Info.plist in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				2E78DEB923FA559100B54027 /* Monaco.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
+				2E78DEBB23FA559200B54027 /* Monaco.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +375,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E78DEBC23FA559300B54027 /* Monaco.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,6 +496,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D0A472E574B2286F5239A6E1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ArpanBankII/Pods-ArpanBankII-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ArpanBankII/Pods-ArpanBankII-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
