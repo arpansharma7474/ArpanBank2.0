@@ -32,7 +32,7 @@ const LoginScreen = props => {
 const onSignInPressed = props => {
     props.googleLogin()
         .then(res => {
-            console.log(res, "user")
+            // console.log(res, "user")
         })
 }
 

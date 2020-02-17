@@ -12,13 +12,12 @@ export const googleSignin = async () => {
         const googleUser = await firebase.auth().signInWithCredential(credential)
         const userData = googleUser.user.toJSON().providerData[0]
 
-        console.log(userData, "google res")
+        console.log(userData, googleUser, "google res")
         return {
             email: userData.email,
             name: userData.displayName,
             uid: userData.uid,
-            provider: "google",
-            profile_picture: userData.photoURL
+            profile_picture: userData.photo
         }
     } catch (e) {
         console.log(e, "google login error")
