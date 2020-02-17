@@ -1,7 +1,7 @@
 
 import { USER_DETAILS } from '../actions/types'
 const INITIAL_STATE = {
-    userDetails: {}
+    userDetails: {},
 }
 
 export default (state = INITIAL_STATE, action) => {

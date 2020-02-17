@@ -6,18 +6,17 @@ export const googleSignin = async () => {
         await GoogleSignin.configure({
             webClientId: '163923950955-2duq15g0e4ijar8gvovmaog4p91grb72.apps.googleusercontent.com',
         });
-        GoogleSignin.signOut();
+        await GoogleSignin.signOut();
         const data = await GoogleSignin.signIn()
         const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
         const googleUser = await firebase.auth().signInWithCredential(credential)
         const userData = googleUser.user.toJSON().providerData[0]
 
-        console.log(userData, googleUser, "google res")
         return {
             email: userData.email,
             name: userData.displayName,
             uid: userData.uid,
-            profile_picture: userData.photo
+            profile_picture: userData.photoURL
         }
     } catch (e) {
         console.log(e, "google login error")

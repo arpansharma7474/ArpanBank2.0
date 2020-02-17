@@ -5,7 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import {
     SplashScreen,
-    LoginScreen
+    LoginScreen,
+    AdminScreen
 } from '../components/screens'
 
 export default Router = () => {
@@ -20,6 +21,7 @@ export default Router = () => {
             >
                 <Stack.Screen name="Splash" component={SplashScreen} />
                 <Stack.Screen name="Login" component={LoginScreen} />
+                <Stack.Screen name="Admin" component={AdminScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

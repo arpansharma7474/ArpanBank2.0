@@ -32,7 +32,10 @@ const LoginScreen = props => {
 const onSignInPressed = props => {
     props.googleLogin()
         .then(res => {
-            // console.log(res, "user")
+            if (res.isAdmin)
+                props.navigation.navigate("Admin")
+            else
+                console.log(res, "not admin")
         })
 }
 

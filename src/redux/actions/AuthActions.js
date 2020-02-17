@@ -18,10 +18,8 @@ export const googleLogin = () => {
             // check if the user already exists
             const checkUserDoc = await firestoreRef.where("id", "==", loginResult.uid).get()
             const checkUser = checkUserDoc.docs
-            console.log("checkUser", loginResult)
-            console.log(checkUser)
             let returnUserObj = {}
-            if (checkUser) {
+            if (checkUser.length > 0) {
                 returnUserObj = checkUser[0].data()
                 // exists 
             } else {
@@ -34,13 +32,13 @@ export const googleLogin = () => {
                     "firebaseToken": device_token,
                     "photoUrl": loginResult.photoUrl,
                 }
-                returnUserObj = await firestoreRef.add(returnUserObj)
+                const result = await firestoreRef.add(returnUserObj)
             }
-            console.log(returnUserObj, "return user Id")
             dispatch({ type: LOADING_STATUS, payload: false });
             persistUser(dispatch, returnUserObj);
             return { success: returnUserObj };
         } catch (err) {
+            console.log(err)
             dispatch({ type: LOADING_STATUS, payload: false });
             return { error: err };
         }
