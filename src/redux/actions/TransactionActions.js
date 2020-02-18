@@ -16,11 +16,12 @@ export const getLatestTransactions = () => {
             transactionsRef.forEach(item => {
                 transactions.push(item.data())
             })
-            const sortedTransactions = transactions.sort((a, b) => {
-                //decending order
-                return getMillisFromDate(b.date) - getMillisFromDate(a.date)
-            })
-            dispatch({ type: LATEST_TRANSACTIONS, payload: sortedTransactions.splice(0, 3) });
+            console.log(transactions, "transactions")
+            // const sortedTransactions = transactions.sort((a, b) => {
+            //     //decending order
+            //     return getMillisFromDate(b.date) - getMillisFromDate(a.date)
+            // })
+            // dispatch({ type: LATEST_TRANSACTIONS, payload: sortedTransactions.splice(0, 3) });
             dispatch({ type: LOADING_STATUS, payload: false });
             return { success: "Transactions found Successfully" };
         } catch (err) {
