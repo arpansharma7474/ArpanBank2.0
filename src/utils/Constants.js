@@ -1,10 +1,6 @@
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
 
-export default constants = {
-  screenWidth,
-  screenHeight,
-};
+import config from '../utils/config'
+import { PixelRatio } from 'react-native'
 
 export const isIphoneXSeries = () => {
   return (
@@ -26,3 +22,13 @@ export const getFullName = user => {
 export const isObject = obj => {
   return typeof obj === 'object' && obj !== null;
 };
+
+export function normalize(size) {
+  const scale = config.constants.width / 320;
+  const newSize = size * scale
+  if (Platform.OS === 'ios') {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize))
+  } else {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
+  }
+}

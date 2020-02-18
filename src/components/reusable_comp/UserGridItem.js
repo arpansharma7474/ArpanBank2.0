@@ -7,6 +7,8 @@ import {
     StyleSheet
 } from 'react-native'
 import config from '../../utils/config'
+import { normalize } from '../../utils/Constants'
+
 
 export default UsersGridItem = props => {
     const item = props.item
@@ -37,23 +39,24 @@ export default UsersGridItem = props => {
                     numberOfLines={1}
                     ellipsizeMode={"tail"}
                     style={[styles.normal_text, {
-                        fontSize: 10,
+                        fontSize: normalize(10),
                         marginStart: 5,
                     }]}>{item.name}</Text>
             </View>
             <Text style={[styles.money_text, {
-                fontSize: 18,
+                marginTop : 5,
+                fontSize: normalize(16),
                 textAlign: 'center',
             }]}>Rs {item.moneyOwed}</Text>
             <TouchableOpacity style={{
                 marginTop: 5,
-                padding: 2,
+                padding: 4,
                 borderWidth: StyleSheet.hairlineWidth,
                 borderRadius: 20,
                 backgroundColor: "green",
             }}>
                 <Text style={[styles.normal_text, {
-                    fontSize: 12,
+                    fontSize: normalize(11),
                     textAlign: 'center',
                     color: 'white'
                 }]}>Transactions</Text>

@@ -56,3 +56,18 @@ export const getRemainingDaysString = (saleEndDate) => {
 export const getOrderDateString = dateInString => {
     return dateInString ? getDate(dateInString).toDateString() : ""
 }
+
+
+export const getMillisFromDate = (stringDate) => {
+    // Date.parse('dd-MM-yyyy HH:mm');
+    const spaceArray = stringDate.split(" ")
+    const monthlyArray = spaceArray[0].split("-")
+    //size = 3
+    const dayTime = spaceArray[1].split(":")
+    const year = monthlyArray[2]
+    const month = monthlyArray[1]
+    const date = monthlyArray[0]
+    const hours = dayTime[0]
+    const minutes = dayTime[1]
+    return new Date(year, month, date, hours, minutes).getTime();
+}

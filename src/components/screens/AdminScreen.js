@@ -6,10 +6,12 @@ import {
     FlatList,
 } from 'react-native'
 import { getUsers } from '../../redux/actions/UserActions'
+import { getLatestTransactions } from '../../redux/actions/TransactionActions'
 import WrapperComponent from '../WrapperComponent'
 import UsersGridItem from '../reusable_comp/UserGridItem'
 import { connect } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler'
+import { normalize } from '../../utils/Constants'
 
 const AdminScreen = props => {
     useEffect(() => {
@@ -17,16 +19,16 @@ const AdminScreen = props => {
             return await props.getUsers()
         }
         const getLatestTransactions = async () => {
-            return await props.getUsers()
+            return await props.getLatestTransactions()
         }
         getUsersFirebase().then(res => {
             if (res.error)
                 alert(JSON.stringify(res.error))
-            else {
-                console.log(props, "users")
-            }
         })
-
+        getLatestTransactions().then(res => {
+            if (res.error)
+                alert(JSON.stringify(res.error))
+        })
     }, []);
 
     return (
@@ -38,22 +40,24 @@ const AdminScreen = props => {
                 justifyContent: "center",
                 marginVertical: 20
             }]}>
-                <Text style={styles.money_text, {
-                    fontSize: 14,
-                    color: "black",
-                    textAlign: 'center',
-                    fontFamily: "Monaco"
-                }}>Hello Admin, You have following amount of Rupees pending : </Text>
+                <Text
+                    style={styles.money_text, {
+                        fontSize: normalize(14),
+                        color: "black",
+                        textAlign: 'center',
+                        fontFamily: "Monaco"
+                    }}>Hello Admin, You have following amount of Rupees pending : </Text>
                 <Text style={[styles.money_text, { marginTop: 5 }]}>Rs {props.totalMoney}</Text>
             </View>
             {/**Horizontal Users */}
             <View style={{ paddingHorizontal: 5 }}>
-                <Text style={[styles.normal_text, {
-                    fontSize: 14,
-                    textAlign: "left",
-                    color: "green",
-                    marginStart: 5,
-                }]}>Top Users</Text>
+                <Text
+                    style={[styles.normal_text, {
+                        fontSize: normalize(14),
+                        textAlign: "left",
+                        color: "green",
+                        marginStart: 5,
+                    }]}>Top Users</Text>
                 <FlatList
                     numColumns={3}
                     keyExtractor={(item) => item.id}
@@ -68,7 +72,7 @@ const AdminScreen = props => {
             {/**Transactions */}
             <View style={styles.main_views}>
                 <Text style={[styles.normal_text, {
-                    fontSize: 14,
+                    fontSize: normalize(14),
                     textAlign: "left",
                     color: "green",
                     marginStart: 5,
@@ -105,4 +109,7 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { getUsers })(WrapperComponent(AdminScreen))
+export default connect(mapStateToProps, {
+    getUsers,
+    getLatestTransactions
+})(WrapperComponent(AdminScreen))
