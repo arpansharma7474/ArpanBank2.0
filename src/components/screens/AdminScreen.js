@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {
     Text,
     View,
     StyleSheet,
     FlatList,
-    Image,
-    TouchableOpacity
 } from 'react-native'
 import { getUsers } from '../../redux/actions/UserActions'
 import WrapperComponent from '../WrapperComponent'
-import config from '../../utils/config'
+import UsersGridItem from '../reusable_comp/UserGridItem'
 import { connect } from 'react-redux'
+import { ScrollView } from 'react-native-gesture-handler'
 
 const AdminScreen = props => {
-
     useEffect(() => {
         const getUsersFirebase = async () => {
+            return await props.getUsers()
+        }
+        const getLatestTransactions = async () => {
             return await props.getUsers()
         }
         getUsersFirebase().then(res => {
@@ -29,11 +30,13 @@ const AdminScreen = props => {
     }, []);
 
     return (
-        <View style={{ flex: 1 }}>
+        <ScrollView
+            style={{ flex: 1 }}>
             {/**Money View */}
             <View style={[styles.main_views, {
                 alignItems: "center",
                 justifyContent: "center",
+                marginVertical: 20
             }]}>
                 <Text style={styles.money_text, {
                     fontSize: 14,
@@ -52,9 +55,9 @@ const AdminScreen = props => {
                     marginStart: 5,
                 }]}>Top Users</Text>
                 <FlatList
-                    horizontal={true}
+                    numColumns={3}
                     keyExtractor={(item) => item.id}
-                    data={props.users}
+                    data={props.users.slice(0, 9)}
                     renderItem={({ item, index }) =>
                         <UsersGridItem
                             item={item}
@@ -63,66 +66,21 @@ const AdminScreen = props => {
                 />
             </View>
             {/**Transactions */}
-            <View style={styles.main_views}></View>
-        </View>
-    )
-
-}
-
-
-const UsersGridItem = props => {
-    const item = props.item
-    return (
-        <View style={{
-            borderWidth: 1,
-            borderRadius: 5,
-            minWidth: config.constants.width / 3,
-            margin: 5,
-            paddingVertical: 8,
-            paddingHorizontal: 5,
-            borderColor: 'black'
-        }}>
-            <View style={{
-                flexDirection: 'row',
-                alignItems: 'center'
-            }}>
-                <Image
-                    style={{
-                        height: 25,
-                        aspectRatio: 1,
-                        backgroundColor: 'grey',
-                        borderRadius: 15
-                    }}
-                />
+            <View style={styles.main_views}>
                 <Text style={[styles.normal_text, {
-                    fontSize: 10,
-                    marginStart: 5
-                }]}>{item.name}</Text>
+                    fontSize: 14,
+                    textAlign: "left",
+                    color: "green",
+                    marginStart: 5,
+                    marginTop: 10
+                }]}>Latest Transactions</Text>
             </View>
-            <Text style={[styles.money_text, {
-                fontSize: 18,
-                textAlign: 'center',
-            }]}>Rs {item.moneyOwed}</Text>
-            <TouchableOpacity style={{
-                marginTop: 5,
-                padding: 2,
-                borderWidth: StyleSheet.hairlineWidth,
-                borderRadius: 20,
-                backgroundColor: "green",
-            }}>
-                <Text style={[styles.normal_text, {
-                    fontSize: 12,
-                    textAlign: 'center',
-                    color: 'white'
-                }]}>Transactions</Text>
-            </TouchableOpacity>
-        </View>
+        </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     main_views: {
-        flex: 1,
         paddingHorizontal: 5
     },
     money_text: {
