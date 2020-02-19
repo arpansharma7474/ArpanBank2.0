@@ -3,12 +3,11 @@ import {
     View,
     Image,
     Text,
-    TouchableOpacity,
     StyleSheet
 } from 'react-native'
 import config from '../../utils/config'
 import { normalize } from '../../utils/Constants'
-
+import AppButton from './AppButton'
 
 export default UsersGridItem = props => {
     const item = props.item
@@ -44,23 +43,17 @@ export default UsersGridItem = props => {
                     }]}>{item.name}</Text>
             </View>
             <Text style={[styles.money_text, {
-                marginTop : 5,
+                marginTop: 5,
                 fontSize: normalize(16),
                 textAlign: 'center',
             }]}>Rs {item.moneyOwed}</Text>
-            <TouchableOpacity style={{
-                marginTop: 5,
-                padding: 4,
-                borderWidth: StyleSheet.hairlineWidth,
-                borderRadius: 20,
-                backgroundColor: "green",
-            }}>
-                <Text style={[styles.normal_text, {
-                    fontSize: normalize(11),
-                    textAlign: 'center',
-                    color: 'white'
-                }]}>Transactions</Text>
-            </TouchableOpacity>
+            <AppButton
+                title={"Transactions"}
+                onPress={() => {
+                    if (props.onTransactionPressed())
+                        props.onTransactionPressed()
+                }}
+            />
         </View>
     )
 }

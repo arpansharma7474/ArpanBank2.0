@@ -13,12 +13,12 @@ export const getUsers = () => {
         dispatch({ type: LOADING_STATUS, payload: true });
         try {
             const firestoreRef = firebase.firestore().collection('users');
-            const usersRef = await firestoreRef.orderBy("moneyOwed", "desc").get()
+            const usersRef = await firestoreRef.where("moneyOwed", ">", 0).orderBy("moneyOwed", "desc").get()
             const users = []
             usersRef.docs.forEach(item => {
-                if (item.data().moneyOwed)
-                    users.push(item.data())
+                users.push(item.data())
             })
+            console.log(users, "Users")
             dispatch({ type: LOADING_STATUS, payload: false });
             saveUsers(dispatch, users)
             return { success: "Users found Successfully" };

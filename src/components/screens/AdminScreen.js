@@ -63,23 +63,42 @@ const AdminScreen = props => {
                 <FlatList
                     numColumns={3}
                     keyExtractor={(item) => item.id}
-                    data={props.users.slice(0, 9)}
+                    data={props.users}
                     renderItem={({ item, index }) =>
                         <UsersGridItem
+                            onTransactionPressed={() => {
+                                transactionsPressed(item)
+                            }}
                             item={item}
                         />
                     }
                 />
             </View>
             {/**Transactions */}
-            <View style={styles.main_views}>
+            <View style={[styles.main_views, {
+                marginVertical: 5,
+                marginHorizontal: 5,
+                flexDirection: 'row',
+                alignItems: 'center'
+            }]}>
                 <Text style={[styles.normal_text, {
                     fontSize: normalize(14),
+                    marginVertical: 5,
                     textAlign: "left",
                     color: "green",
-                    marginHorizontal: 5,
-                    marginTop: 10
                 }]}>Latest Transactions</Text>
+                <AppButton
+                    style={{
+                        position: "absolute",
+                        marginVertical: 5,
+                        right: 10,
+                        padding: 5
+                    }}
+                    title={"See All"}
+                    onPress={() => {
+                        transactionsPressed()
+                    }}
+                />
             </View>
             <FlatList
                 keyExtractor={(item, index) => index.toString()}
@@ -92,6 +111,10 @@ const AdminScreen = props => {
             />
         </ScrollView>
     )
+}
+
+transactionsPressed = (item) => {
+    alert("item")
 }
 
 const styles = StyleSheet.create({
