@@ -36,7 +36,7 @@ export default TransactionsItem = props => {
                     fontSize: normalize(11),
                     fontFamily: "Monaco",
                     color: 'black',
-                }}>Customer : {item.user}</Text>
+                }}>Customer : {item.user ? item.user.name : item.fromUser}</Text>
                 <Text style={{
                     fontSize: normalize(11),
                     fontFamily: "Monaco",

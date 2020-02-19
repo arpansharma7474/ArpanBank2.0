@@ -10,18 +10,13 @@ export const getLatestTransactions = () => {
         dispatch({ type: LOADING_STATUS, payload: true });
         try {
             const firestoreRef = firebase.firestore().collection('transactions');
-            const transactionsRef = await firestoreRef.get()
+            const transactionsRef = await firestoreRef.orderBy("time", "desc").limit(3).get()
             const transactions = []
-            console.log(transactionsRef, "jwefj")
             transactionsRef.forEach(item => {
                 transactions.push(item.data())
             })
             console.log(transactions, "transactions")
-            // const sortedTransactions = transactions.sort((a, b) => {
-            //     //decending order
-            //     return getMillisFromDate(b.date) - getMillisFromDate(a.date)
-            // })
-            // dispatch({ type: LATEST_TRANSACTIONS, payload: sortedTransactions.splice(0, 3) });
+            dispatch({ type: LATEST_TRANSACTIONS, payload: transactions });
             dispatch({ type: LOADING_STATUS, payload: false });
             return { success: "Transactions found Successfully" };
         } catch (err) {

@@ -16,22 +16,6 @@ import { normalize } from '../../utils/Constants'
 
 const AdminScreen = props => {
 
-    const array = [{
-        user: "Arpan",
-        amount: 123,
-        time: 1320990071000,
-        message: "Thid id test",
-        isPaid: true
-    },
-    {
-        user: "ANkit",
-        amount: 1230,
-        time: 1321000071000,
-        message: "Thid id test",
-        isPaid: false
-    }
-    ]
-
     useEffect(() => {
         const getUsersFirebase = async () => {
             return await props.getUsers()
@@ -39,14 +23,14 @@ const AdminScreen = props => {
         const getLatestTransactions = async () => {
             return await props.getLatestTransactions()
         }
-        // getUsersFirebase().then(res => {
-        //     if (res.error)
-        //         alert(JSON.stringify(res.error))
-        // })
-        // getLatestTransactions().then(res => {
-        //     if (res.error)
-        //         alert(JSON.stringify(res.error))
-        // })
+        getUsersFirebase().then(res => {
+            if (res.error)
+                alert(JSON.stringify(res.error))
+        })
+        getLatestTransactions().then(res => {
+            if (res.error)
+                alert(JSON.stringify(res.error))
+        })
     }, []);
 
     return (
@@ -65,7 +49,7 @@ const AdminScreen = props => {
                         textAlign: 'center',
                         fontFamily: "Monaco"
                     }}>Hello Admin, You have following amount of Rupees pending : </Text>
-                <Text style={[styles.money_text, { marginTop: 5 }]}>Rs {props.totalMoney}</Text>
+                <Text style={[styles.money_text, { marginVertical: 20, fontSize: normalize(30) }]}>Rs {props.totalMoney}</Text>
             </View>
             {/**Horizontal Users */}
             <View style={{ paddingHorizontal: 5 }}>
@@ -98,8 +82,8 @@ const AdminScreen = props => {
                 }]}>Latest Transactions</Text>
             </View>
             <FlatList
-                keyExtractor={(item) => item.time}
-                data={array}
+                keyExtractor={(item, index) => index.toString()}
+                data={props.latestTransactions}
                 renderItem={({ item, index }) =>
                     <TransactionsItem
                         item={item}
@@ -133,7 +117,8 @@ function mapStateToProps(state) {
     return {
         Loading: state.LoadingReducer.loadingStatus,
         users: state.UsersReducer.users,
-        totalMoney: state.UsersReducer.totalMoney
+        totalMoney: state.UsersReducer.totalMoney,
+        latestTransactions: state.TransactionReducer.latestTransactions
     };
 }
 
