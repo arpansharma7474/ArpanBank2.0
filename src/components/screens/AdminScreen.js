@@ -4,15 +4,17 @@ import {
     View,
     StyleSheet,
     FlatList,
+    ScrollView
 } from 'react-native'
-import { getUsers } from '../../redux/actions/UserActions'
-import { getLatestTransactions } from '../../redux/actions/TransactionActions'
+
 import WrapperComponent from '../WrapperComponent'
 import UsersGridItem from '../reusable_comp/UserGridItem'
 import TransactionsItem from '../reusable_comp/TransactionsItem'
 import { connect } from 'react-redux'
-import { ScrollView } from 'react-native-gesture-handler'
 import { normalize } from '../../utils/Constants'
+
+import { getUsers } from '../../redux/actions/UserActions'
+import { getLatestTransactions } from '../../redux/actions/TransactionActions'
 
 const AdminScreen = props => {
 
@@ -36,11 +38,23 @@ const AdminScreen = props => {
     return (
         <ScrollView
             style={{ flex: 1 }}>
+            <AppButton
+                style={{
+                    position: "absolute",
+                    marginVertical: 10,
+                    right: 10,
+                    padding: 7
+                }}
+                title={"Logout"}
+                onPress={() => {
+
+                }}
+            />
             {/**Money View */}
             <View style={[styles.main_views, {
                 alignItems: "center",
                 justifyContent: "center",
-                marginVertical: 20
+                marginTop: normalize(40)
             }]}>
                 <Text
                     style={styles.money_text, {
@@ -49,7 +63,10 @@ const AdminScreen = props => {
                         textAlign: 'center',
                         fontFamily: "Monaco"
                     }}>Hello Admin, You have following amount of Rupees pending : </Text>
-                <Text style={[styles.money_text, { marginVertical: 20, fontSize: normalize(30) }]}>Rs {props.totalMoney}</Text>
+                <Text style={[styles.money_text, {
+                    marginVertical: 20,
+                    fontSize: normalize(30)
+                }]}>Rs {props.totalMoney}</Text>
             </View>
             {/**Horizontal Users */}
             <View style={{ paddingHorizontal: 5 }}>

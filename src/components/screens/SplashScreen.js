@@ -12,8 +12,12 @@ const SplashScreen = props => {
     useEffect(() => {
         setTimeout(() => {
             console.log(props.User, "props on splash")
-            if (props.User.isAdmin)
-                props.navigation.navigate("Admin")
+            if (props.User) {
+                if (props.User.isAdmin)
+                    props.navigation.navigate("Admin")
+                else
+                    props.navigation.navigate("UsersScreen")
+            }
             else
                 props.navigation.navigate("Login")
         }, 1000)

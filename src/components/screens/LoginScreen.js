@@ -9,7 +9,6 @@ import { GoogleSigninButton } from '@react-native-community/google-signin';
 import { googleLogin } from '../../redux/actions/AuthActions'
 import { connect } from 'react-redux'
 
-
 const LoginScreen = props => {
     return (
         <View style={{
@@ -35,7 +34,7 @@ const onSignInPressed = props => {
             if (props.User.isAdmin)
                 props.navigation.navigate("Admin")
             else
-                console.log(res, "not admin")
+                props.navigation.navigate("UsersScreen")
         })
 }
 
