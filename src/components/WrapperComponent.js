@@ -5,11 +5,8 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import config from '../utils/config'
-// import { BackButton } from '../assets/Images'
-// import { commonStyles } from '../utils/CommonStyles'
 import EmptyView from './reusable_comp/EmptyView'
 import LoadingModal from './reusable_comp/LoadingModal'
-
 
 /**
  * A wrapper for the components with boiler plate for searching, Loading, pagination and swipe refresh

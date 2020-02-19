@@ -23,7 +23,7 @@ export const getUsers = () => {
             saveUsers(dispatch, users)
             return { success: "Users found Successfully" };
         } catch (err) {
-            console.log(err)
+            console.log(err, "get Users")
             dispatch({ type: LOADING_STATUS, payload: false });
             return { error: err };
         }

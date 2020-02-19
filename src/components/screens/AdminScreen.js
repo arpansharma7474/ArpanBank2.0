@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Text,
     View,
@@ -12,13 +12,18 @@ import UsersGridItem from '../reusable_comp/UserGridItem'
 import TransactionsItem from '../reusable_comp/TransactionsItem'
 import { connect } from 'react-redux'
 import { normalize } from '../../utils/Constants'
+import AlertModal from '../reusable_comp/AlertModal'
 
 import { getUsers } from '../../redux/actions/UserActions'
+import { logoutUser } from '../../redux/actions/AuthActions'
 import { getLatestTransactions } from '../../redux/actions/TransactionActions'
 
 const AdminScreen = props => {
 
+    const [alert, setAlert] = useState(undefined)
+
     useEffect(() => {
+        console.log("props", props)
         const getUsersFirebase = async () => {
             return await props.getUsers()
         }
@@ -27,17 +32,31 @@ const AdminScreen = props => {
         }
         getUsersFirebase().then(res => {
             if (res.error)
-                alert(JSON.stringify(res.error))
+                setAlert(res)
         })
         getLatestTransactions().then(res => {
-            if (res.error)
-                alert(JSON.stringify(res.error))
+            // if (res.error)
+            //     setAlert(res)
         })
     }, []);
 
     return (
         <ScrollView
             style={{ flex: 1 }}>
+            {alert ? <AlertModal
+                message={alert}
+                onOkClicked={() => {
+                    setAlert(undefined)
+                    props.logoutUser()
+                        .then(res => {
+                            props.navigation.reset({ index: 0, routes: [{ name: "Login" }] })
+                        })
+                }}
+                onCancelClicked={alert.error ? null : () => {
+                    setAlert(undefined)
+                }}
+
+            /> : null}
             <AppButton
                 style={{
                     position: "absolute",
@@ -47,7 +66,7 @@ const AdminScreen = props => {
                 }}
                 title={"Logout"}
                 onPress={() => {
-
+                    setAlert({ success: "Are you sure you want to Logout?" })
                 }}
             />
             {/**Money View */}
@@ -164,5 +183,6 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
     getUsers,
-    getLatestTransactions
+    getLatestTransactions,
+    logoutUser
 })(WrapperComponent(AdminScreen))

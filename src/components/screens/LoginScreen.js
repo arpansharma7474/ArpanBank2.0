@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import WrapperComponent from '../WrapperComponent'
 import {
     View,
@@ -31,6 +31,7 @@ const LoginScreen = props => {
 const onSignInPressed = props => {
     props.googleLogin()
         .then(res => {
+            console.log(props.User, "props")
             if (props.User.isAdmin)
                 props.navigation.navigate("Admin")
             else
@@ -41,7 +42,7 @@ const onSignInPressed = props => {
 function mapStateToProps(state) {
     return {
         Loading: state.LoadingReducer.loadingStatus,
-        User: state.persistedReducer
+        User: state.persistedReducer.userDetails
     };
 }
 

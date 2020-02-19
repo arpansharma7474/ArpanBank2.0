@@ -1,6 +1,7 @@
 import {
     USER_DETAILS,
     LOADING_STATUS,
+    CLEAR_ALL
 } from './types';
 import { googleSignin } from '../../utils/SocialLogin';
 import firebase from 'react-native-firebase';
@@ -38,9 +39,15 @@ export const googleLogin = () => {
             persistUser(dispatch, returnUserObj);
             return { success: returnUserObj };
         } catch (err) {
-            console.log(err)
+            console.log(err, "Login Error")
             dispatch({ type: LOADING_STATUS, payload: false });
             return { error: err };
         }
     };
 };
+
+export const logoutUser = () => {
+    return async dispatch => {
+        persistUser(dispatch, {});
+    }
+}
