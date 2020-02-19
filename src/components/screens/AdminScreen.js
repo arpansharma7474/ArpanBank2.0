@@ -9,11 +9,29 @@ import { getUsers } from '../../redux/actions/UserActions'
 import { getLatestTransactions } from '../../redux/actions/TransactionActions'
 import WrapperComponent from '../WrapperComponent'
 import UsersGridItem from '../reusable_comp/UserGridItem'
+import TransactionsItem from '../reusable_comp/TransactionsItem'
 import { connect } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler'
 import { normalize } from '../../utils/Constants'
 
 const AdminScreen = props => {
+
+    const array = [{
+        user: "Arpan",
+        amount: 123,
+        time: 1320990071000,
+        message: "Thid id test",
+        isPaid: true
+    },
+    {
+        user: "ANkit",
+        amount: 1230,
+        time: 1321000071000,
+        message: "Thid id test",
+        isPaid: false
+    }
+    ]
+
     useEffect(() => {
         const getUsersFirebase = async () => {
             return await props.getUsers()
@@ -21,14 +39,14 @@ const AdminScreen = props => {
         const getLatestTransactions = async () => {
             return await props.getLatestTransactions()
         }
-        getUsersFirebase().then(res => {
-            if (res.error)
-                alert(JSON.stringify(res.error))
-        })
-        getLatestTransactions().then(res => {
-            if (res.error)
-                alert(JSON.stringify(res.error))
-        })
+        // getUsersFirebase().then(res => {
+        //     if (res.error)
+        //         alert(JSON.stringify(res.error))
+        // })
+        // getLatestTransactions().then(res => {
+        //     if (res.error)
+        //         alert(JSON.stringify(res.error))
+        // })
     }, []);
 
     return (
@@ -75,10 +93,19 @@ const AdminScreen = props => {
                     fontSize: normalize(14),
                     textAlign: "left",
                     color: "green",
-                    marginStart: 5,
+                    marginHorizontal: 5,
                     marginTop: 10
                 }]}>Latest Transactions</Text>
             </View>
+            <FlatList
+                keyExtractor={(item) => item.time}
+                data={array}
+                renderItem={({ item, index }) =>
+                    <TransactionsItem
+                        item={item}
+                    />
+                }
+            />
         </ScrollView>
     )
 }
@@ -101,6 +128,7 @@ const styles = StyleSheet.create({
         fontFamily: "Monaco"
     }
 })
+
 function mapStateToProps(state) {
     return {
         Loading: state.LoadingReducer.loadingStatus,

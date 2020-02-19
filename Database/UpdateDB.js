@@ -42,18 +42,3 @@ const getMillisFromDate = (stringDate) => {
 }
 
 checkTransactions()
-
-
-// let newTransactions = []
-//         result.docs.forEach(item => {
-//             const data = item.data()
-//             if (data.date && data.user) {
-//                 newTransactions.push({
-//                     ...data,
-//                     time: getMillisFromDate(data.date)
-//                 })
-//             }
-//         })
-//         console.log(newTransactions.sort((a, b) => {
-//             return a.time - b.time
-//         })[784])

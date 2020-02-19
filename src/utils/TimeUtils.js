@@ -1,8 +1,8 @@
 import { log } from "./Logger";
 
 // converts a js date string to seconds/minutes ago format
-export const getTimeInReadableString = (dateInString, singleChar) => {
-    const date = getDate(dateInString)
+export const getTimeInReadableString = (dateInString, singleChar, dateJs) => {
+    const date = dateJs ? dateJs : getDate(dateInString)
     const seconds = Math.ceil((new Date() - date) / 1000);
     let interval = Math.ceil(seconds / 31536000);
     if (interval > 1) {
