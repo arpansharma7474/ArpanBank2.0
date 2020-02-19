@@ -7,7 +7,8 @@ import {
     SplashScreen,
     LoginScreen,
     AdminScreen,
-    UsersScreen
+    UsersScreen,
+    TransactionsScreen
 } from '../components/screens'
 
 export default Router = () => {
@@ -24,6 +25,7 @@ export default Router = () => {
                 <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="Admin" component={AdminScreen} />
                 <Stack.Screen name="UsersScreen" component={UsersScreen} />
+                <Stack.Screen name="TransactionsScreen" component={TransactionsScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
