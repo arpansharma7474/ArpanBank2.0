@@ -8,8 +8,6 @@ import UserDetailsReducer from './UserDetailsReducer'
 import TransactionReducer from './TransactionReducers'
 import UsersReducer from './UsersReducer'
 
-// import AsyncStorage from '@react-native-community/async-storage';
-
 const persistConfig = {
     storage: storage,
     key: "persistedReducer",

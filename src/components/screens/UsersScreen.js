@@ -51,7 +51,7 @@ const UsersScreen = props => {
                         color: "black",
                         textAlign: 'center',
                         fontFamily: "Monaco"
-                    }}>Hello Admin, You have following amount of Rupees pending : </Text>
+                    }}>Hello {props.User.name}, You have following amount of Rupees pending : </Text>
                 <Text style={[styles.money_text, {
                     marginVertical: 20,
                     fontSize: normalize(30)
@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
     return {
         Loading: state.LoadingReducer.loadingStatus,
+        User: state.persistedReducer.userDetails
     };
 }
 

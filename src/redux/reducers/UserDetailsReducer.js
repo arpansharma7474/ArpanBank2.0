@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case USER_DETAILS:
-            return { ...state, userDetails: action.payload }
+            return { ...state, userDetails: {...action.payload} }
         case CLEAR_ALL:
             return INITIAL_STATE
         default:

@@ -44,7 +44,7 @@ class AlertModal extends Component {
                                 width: "100%",
                                 color: 'white',
                                 textAlign: "center",
-                                padding: 5
+                                padding: 10
                             }}
                         >{this.getTitle()}</Text>
                         <Text
@@ -86,7 +86,7 @@ class AlertModal extends Component {
                                         width: "100%",
                                         color: 'white',
                                         textAlign: "center",
-                                        padding: 5
+                                        padding: 10
                                     }}
                                 >Cancel</Text>
                             </TouchableOpacity>}
@@ -109,7 +109,7 @@ class AlertModal extends Component {
                                     width: "100%",
                                     color: 'white',
                                     textAlign: "center",
-                                    padding: 5
+                                    padding: 10
                                 }}
                             >OK</Text>
                         </TouchableOpacity>
