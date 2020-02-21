@@ -27,3 +27,21 @@ export const getLatestTransactions = () => {
     };
 };
 
+export const getUsersTransactions = (userId, page) => {
+    return async dispatch => {
+        dispatch({ type: LOADING_STATUS, payload: true });
+        try {
+            const response = fetch('https://us-central1-arpanbank-ac07f.cloudfunctions.net/transactions?userId=' + userId + '&page=' + page)
+            const transactions = await response.json()
+            console.log(transactions, "transactions")
+            // dispatch({ type: LATEST_TRANSACTIONS, payload: transactions });
+            dispatch({ type: LOADING_STATUS, payload: false });
+            return { success: "Transactions found Successfully" };
+        } catch (err) {
+            console.log(err)
+            dispatch({ type: LOADING_STATUS, payload: false });
+            return { error: err };
+        }
+    };
+};
+

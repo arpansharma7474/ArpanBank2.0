@@ -6,7 +6,7 @@ import {
     StyleSheet
 } from 'react-native'
 import { GoogleSigninButton } from '@react-native-community/google-signin';
-import { googleLogin } from '../../redux/actions/AuthActions'   
+import { googleLogin } from '../../redux/actions/AuthActions'
 import { connect } from 'react-redux'
 
 class LoginScreen extends React.Component {

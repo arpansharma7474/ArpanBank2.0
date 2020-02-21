@@ -103,7 +103,7 @@ const AdminScreen = props => {
                     renderItem={({ item, index }) =>
                         <UsersGridItem
                             onTransactionPressed={() => {
-                                transactionsPressed(item)
+                                transactionsPressed(props, item)
                             }}
                             item={item}
                         />
@@ -132,7 +132,7 @@ const AdminScreen = props => {
                     }}
                     title={"See All"}
                     onPress={() => {
-                        transactionsPressed()
+                        transactionsPressed(props)
                     }}
                 />
             </View>
@@ -149,8 +149,8 @@ const AdminScreen = props => {
     )
 }
 
-transactionsPressed = (item) => {
-    alert("item")
+transactionsPressed = (props, user) => {
+    props.navigation.navigate("TransactionsScreen", { user: user })
 }
 
 const styles = StyleSheet.create({
