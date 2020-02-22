@@ -9,6 +9,10 @@ import { connect } from 'react-redux'
 
 const SplashScreen = props => {
 
+    props.navigation.setOptions({
+        headerShown: false
+    });
+
     useEffect(() => {
         setTimeout(() => {
             console.log(props.User, "props on splash")

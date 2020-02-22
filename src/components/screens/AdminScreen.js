@@ -20,6 +20,10 @@ import { getLatestTransactions } from '../../redux/actions/TransactionActions'
 
 const AdminScreen = props => {
 
+    props.navigation.setOptions({
+        headerShown: false
+    });
+
     const [alert, setAlert] = useState(undefined)
 
     useEffect(() => {
@@ -35,8 +39,8 @@ const AdminScreen = props => {
                 setAlert(res)
         })
         getLatestTransactions().then(res => {
-            // if (res.error)
-            //     setAlert(res)
+            if (res.error)
+                setAlert(res)
         })
     }, []);
 
@@ -123,7 +127,7 @@ const AdminScreen = props => {
                     textAlign: "left",
                     color: "green",
                 }]}>Latest Transactions</Text>
-                <AppButton
+                {/* <AppButton
                     style={{
                         position: "absolute",
                         marginVertical: 5,
@@ -134,7 +138,7 @@ const AdminScreen = props => {
                     onPress={() => {
                         transactionsPressed(props)
                     }}
-                />
+                /> */}
             </View>
             <FlatList
                 keyExtractor={(item, index) => index.toString()}

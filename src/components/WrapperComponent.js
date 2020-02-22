@@ -14,45 +14,15 @@ import LoadingModal from './reusable_comp/LoadingModal'
  */
 const WrapperComponent = (ChildComponent, props) =>
     class extends React.Component {
-        static navigationOptions = ChildComponent.navigationOptions ? ChildComponent.navigationOptions : ({ navigation }) =>
-            props && props.title ? {
-                title: props.title,
-                headerStyle: {
-                    backgroundColor: config.colors.THEME_COLOR,
-                },
-                headerTitleStyle: {
-                    color: 'white',
-                    fontFamily: 'ProximaNova-Bold'
-                },
-
-                headerLeft: (
-                    <TouchableOpacity
-                        // style={commonStyles.navigation_header_widget_style}
-                        onPress={() => navigation.goBack()}>
-                        {/* <BackButton
-                            width={30}
-                            height={30}
-                        /> */}
-
-                    </TouchableOpacity>
-                ),
-                headerRight: props.headerRight ? props.headerRight : undefined,
-            } : { header: null }
-        // common states
 
 
         state = {
             page: 1,
-            searchText: '',
             refreshing: false,
             loadingNextItems: false,
-            errorAlert: undefined,
+            alertObj: undefined,
             showEmptyView: false
         };
-
-        // search variblessss
-        checkingSearchText = false
-        currentSearchText = ''
         hasMoreItems = true
 
         render() {
@@ -69,9 +39,6 @@ const WrapperComponent = (ChildComponent, props) =>
                         <ChildComponent
                             {...this.props}
                             {... this.state}
-                            checkSearchText={() => this.checkSearchText()}
-                            checkingSearchText={this.checkingSearchText}
-                            currentSearchText={this.currentSearchText}
                             hasMoreItems={this.hasMoreItems}
                             updateState={(obj) =>
                                 new Promise((resolve, reject) => {
@@ -80,12 +47,6 @@ const WrapperComponent = (ChildComponent, props) =>
                                     })
                                 })
                             }
-                            updateSearchCheck={(checkingSearchText) => {
-                                this.checkingSearchText = checkingSearchText
-                            }}
-                            updateCurrentSearchText={(currentSearchText) => {
-                                this.currentSearchText = currentSearchText
-                            }}
                             updatehasMoreItems={(hasMoreItems) => {
                                 this.hasMoreItems = hasMoreItems
                             }}
@@ -107,26 +68,6 @@ const WrapperComponent = (ChildComponent, props) =>
                     </SafeAreaView>
                 </React.Fragment>
             );
-        }
-
-        checkSearchText = () => {
-            return new Promise((resolve, reject) => {
-                if (!this.checkingSearchText) {
-                    this.checkingSearchText = true
-                    setTimeout(() => {
-                        if (this.state.searchText === this.currentSearchText) {
-                            this.setState({
-                                page: 1
-                            }, () => {
-                                resolve("resolve")
-                            })
-                        }
-                        this.checkingSearchText = false
-                    }, 500)
-                } else {
-                    reject("Checking")
-                }
-            })
         }
     };
 
