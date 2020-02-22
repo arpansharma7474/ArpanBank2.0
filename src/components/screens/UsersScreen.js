@@ -24,7 +24,7 @@ class UsersScreen extends React.PureComponent {
         this.props.navigation.setOptions({
             headerShown: false
         });
-        this.props.getUsersTransactions()
+        this.props.getUsersTransactions(this.props.User.id, this.props.page)
             .then(res => {
                 console.log(this.props.usersTransactions, "props")
                 if (res.error)
@@ -41,26 +41,43 @@ class UsersScreen extends React.PureComponent {
         return (
             <ScrollView
                 style={{ flex: 1 }}>
-                <AppButton
-                    style={{
-                        position: "absolute",
-                        marginVertical: 10,
-                        right: 10,
-                        padding: 7
-                    }}
-                    title={"Logout"}
-                    onPress={() => {
-                        this.props.logoutUser()
-                            .then(res => {
-                                props.navigation.reset({ index: 0, routes: [{ name: "Login" }] })
-                            })
-                    }}
-                />
+                <View style={{
+                    flexDirection: 'row',
+                    position: "absolute",
+                    right: 10
+                }}>
+
+                    <AppButton
+                        style={{
+                            marginVertical: 10,
+                            marginHorizontal: 10,
+                            padding: 7
+                        }}
+                        title={"Add Money"}
+                        onPress={() => {
+                            this.props.navigation.navigate("AddTransactionScreen")
+                        }}
+                    />
+
+                    <AppButton
+                        style={{
+                            marginVertical: 10,
+                            padding: 7
+                        }}
+                        title={"Logout"}
+                        onPress={() => {
+                            this.props.logoutUser()
+                                .then(res => {
+                                    props.navigation.reset({ index: 0, routes: [{ name: "Login" }] })
+                                })
+                        }}
+                    />
+                </View>
                 {/**Money View */}
                 <View style={[styles.main_views, {
                     alignItems: "center",
                     justifyContent: "center",
-                    marginTop: normalize(40)
+                    marginTop: normalize(50)
                 }]}>
                     <Text
                         style={styles.money_text, {

@@ -17,7 +17,7 @@ export default AppButton = props => {
                 padding: normalize(3),
                 marginVertical: 5,
                 borderWidth: StyleSheet.hairlineWidth,
-                borderRadius: 20,
+                borderRadius: 5,
                 backgroundColor: "green",
             }, props.style]}>
             <Text style={[styles.normal_text, {

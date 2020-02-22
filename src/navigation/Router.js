@@ -8,7 +8,8 @@ import {
     LoginScreen,
     AdminScreen,
     UsersScreen,
-    TransactionsScreen
+    TransactionsScreen,
+    AddTransactionScreen
 } from '../components/screens'
 
 export default Router = () => {
@@ -23,6 +24,7 @@ export default Router = () => {
                 <Stack.Screen name="Admin" component={AdminScreen} />
                 <Stack.Screen name="UsersScreen" component={UsersScreen} />
                 <Stack.Screen name="TransactionsScreen" component={TransactionsScreen} />
+                <Stack.Screen name="AddTransactionScreen" component={AddTransactionScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
