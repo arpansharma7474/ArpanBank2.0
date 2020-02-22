@@ -10,91 +10,114 @@ import AppButton from '../reusable_comp/AppButton'
 import WrapperComponent from '../WrapperComponent'
 import TransactionsItem from '../reusable_comp/TransactionsItem'
 import { connect } from 'react-redux'
+import { getUsersTransactions } from '../../redux/actions/TransactionActions'
 import { normalize } from '../../utils/Constants'
 
-const UsersScreen = props => {
+class UsersScreen extends React.PureComponent {
 
-    useEffect(() => {
-        const getUserTransactions = async () => {
-            // return await props.getLatestTransactions()
+    constructor(props) {
+        super(props)
+        console.log(this.props.User)
+        this.state = {
+            alert: undefined
         }
-        getUserTransactions().then(res => {
-            // if (res.error)
-            //     alert(JSON.stringify(res.error))
-        })
-    }, []);
+        this.props.navigation.setOptions({
+            headerShown: false
+        });
+        this.props.getUsersTransactions()
+            .then(res => {
+                console.log(this.props.usersTransactions, "props")
+                if (res.error)
+                    this.setState({
+                        alert: res.error
+                    })
+                this.props.updateState({
+                    showEmptyView: this.props.usersTransactions
+                })
+            })
+    }
 
-    return (
-        <ScrollView
-            style={{ flex: 1 }}>
-            <AppButton
-                style={{
-                    position: "absolute",
-                    marginVertical: 10,
-                    right: 10,
-                    padding: 7
-                }}
-                title={"Logout"}
-                onPress={() => {
-
-                }}
-            />
-            {/**Money View */}
-            <View style={[styles.main_views, {
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: normalize(40)
-            }]}>
-                <Text
-                    style={styles.money_text, {
-                        fontSize: normalize(14),
-                        color: "black",
-                        textAlign: 'center',
-                        fontFamily: "Monaco"
-                    }}>Hello {props.User.name}, You have following amount of Rupees pending : </Text>
-                <Text style={[styles.money_text, {
-                    marginVertical: 20,
-                    fontSize: normalize(30)
-                }]}>Rs {props.totalMoney}</Text>
-            </View>
-            {/**Transactions */}
-            <View style={[styles.main_views, {
-                marginVertical: 5,
-                marginHorizontal: 5,
-                flexDirection: 'row',
-                alignItems: 'center'
-            }]}>
-                <Text style={[styles.normal_text, {
-                    fontSize: normalize(14),
-                    marginVertical: 5,
-                    textAlign: "left",
-                    color: "green",
-                }]}>Latest Transactions</Text>
+    render() {
+        return (
+            <ScrollView
+                style={{ flex: 1 }}>
                 <AppButton
                     style={{
                         position: "absolute",
-                        marginVertical: 5,
+                        marginVertical: 10,
                         right: 10,
-                        padding: 5
+                        padding: 7
                     }}
-                    title={"See All"}
+                    title={"Logout"}
                     onPress={() => {
-                        transactionsPressed()
+                        this.props.logoutUser()
+                            .then(res => {
+                                props.navigation.reset({ index: 0, routes: [{ name: "Login" }] })
+                            })
                     }}
                 />
-            </View>
-            <FlatList
-                keyExtractor={(item, index) => index.toString()}
-                data={props.latestTransactions}
-                renderItem={({ item, index }) =>
-                    <TransactionsItem
-                        item={item}
-                    />
-                }
-            />
-        </ScrollView>
-    )
+                {/**Money View */}
+                <View style={[styles.main_views, {
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginTop: normalize(40)
+                }]}>
+                    <Text
+                        style={styles.money_text, {
+                            fontSize: normalize(14),
+                            color: "black",
+                            textAlign: 'center',
+                            fontFamily: "Monaco"
+                        }}>Hello {this.props.User.name}, You have following amount pending : </Text>
+                    <Text style={[styles.money_text, {
+                        marginVertical: 20,
+                        fontSize: normalize(30)
+                    }]}>Rs {this.props.User.moneyOwed}</Text>
+                </View>
+                {/**Transactions */}
+                <View style={[styles.main_views, {
+                    marginVertical: 5,
+                    marginHorizontal: 5,
+                    flexDirection: 'row',
+                    alignItems: 'center'
+                }]}>
+                    <Text style={[styles.normal_text, {
+                        fontSize: normalize(14),
+                        marginVertical: 5,
+                        textAlign: "left",
+                        color: "green",
+                    }]}>Latest Transactions</Text>
+                    {this.props.usersTransactions.length > 0 ? <AppButton
+                        style={{
+                            position: "absolute",
+                            marginVertical: 5,
+                            right: 10,
+                            padding: 5
+                        }}
+                        title={"See All"}
+                        onPress={() => {
+                            this.seeAllTransactionsPressed()
+                        }}
+                    /> : null}
+                </View>
+                <FlatList
+                    keyExtractor={(item, index) => index.toString()}
+                    data={this.props.usersTransactions.slice(0, 9)}
+                    renderItem={({ item, index }) =>
+                        <TransactionsItem
+                            item={item}
+                        />
+                    }
+                />
+            </ScrollView>
+        )
+    }
+
+    seeAllTransactionsPressed = () => {
+        this.props.navigation.navigate("TransactionsScreen", { user: this.props.User })
+    }
 }
+
 
 const styles = StyleSheet.create({
     main_views: {
@@ -118,10 +141,13 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
     return {
         Loading: state.LoadingReducer.loadingStatus,
-        User: state.persistedReducer.userDetails
+        User: state.persistedReducer.userDetails,
+        usersTransactions: state.TransactionReducer.usersTransactions
     };
 }
 
 export default connect(mapStateToProps, {
-
-})(WrapperComponent(UsersScreen))
+    getUsersTransactions
+})(WrapperComponent(UsersScreen, {
+    empty_list_message: "No Transaction Found",
+}))

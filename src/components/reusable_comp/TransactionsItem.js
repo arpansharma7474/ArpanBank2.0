@@ -32,11 +32,11 @@ export default TransactionsItem = props => {
                 flex: 1,
                 justifyContent: 'center'
             }}>
-                <Text style={{
+                {!props.hideCustomer && <Text style={{
                     fontSize: normalize(11),
                     fontFamily: "Monaco",
                     color: 'black',
-                }}>Customer : {item.user ? item.user.name : item.fromUser}</Text>
+                }}>Customer : {item.user ? item.user.name : item.fromUser}</Text>}
                 <Text style={{
                     fontSize: normalize(11),
                     fontFamily: "Monaco",
@@ -48,7 +48,7 @@ export default TransactionsItem = props => {
                     fontFamily: "Monaco",
                     color: 'black',
                     marginTop: 5
-                }}>{getTimeInReadableString(null, false, new Date(item.time))}</Text>
+                }}>{item.date}</Text>
                 <Text style={[styles.text, {
                     position: 'absolute',
                     right: 10,

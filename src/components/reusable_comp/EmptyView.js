@@ -14,14 +14,15 @@ export default EmptyView = props => {
                 position: 'absolute',
                 left: 0,
                 right: 0,
-                top: 0, 
-                bottom : 0,
+                top: 0,
+                bottom: 0,
                 justifyContent: 'center',
                 alignItems: 'center',
             }, props.style]}>
             <Text style={{
                 color: "black",
-                textAlign: 'center'
+                textAlign: 'center',
+                fontFamily: "Monaco"
             }}>
                 {props.message}
             </Text>

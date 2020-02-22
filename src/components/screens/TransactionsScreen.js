@@ -6,114 +6,107 @@ import { getUsersTransactions } from '../../redux/actions/TransactionActions'
 import AlertModal from '../reusable_comp/AlertModal'
 import { normalize } from '../../utils/Constants';
 
-const getUserTransactions = async (props) => {
-  const userId = props.route.params.user.id
-  return await props.getUsersTransactions(userId, props.page)
-}
+class TransactionScreen extends React.PureComponent {
 
-const TransactionScreen = props => {
+  constructor(props) {
+    super(props)
+    this.state = {
+      transactions: [],
+      alert: undefined
+    }
+    this.props.navigation.setOptions({
+      title: "Transactions",
+      headerStyle: {
+        backgroundColor: "green",
+      },
+      headerTitleStyle: {
+        fontFamily: "Monaco",
+        fontSize: normalize(15)
+      },
+      headerTintColor: "white"
+    });
+  }
 
-  props.navigation.setOptions({
-    title: "Transactions",
-    headerStyle: {
-      backgroundColor: "green",
-    },
-    headerTitleStyle: {
-      fontFamily: "Monaco",
-      fontSize: normalize(15)
-    },
-    headerTintColor: "white"
-  });
-
-  const [transactions, setTransactions] = useState([])
-  const [alert, setAlert] = useState(undefined)
-
-  useEffect(() => {
-    getUserTransactions(props).then(res => {
+  getTransactions() {
+    const userId = this.props.route.params.user.id
+    this.props.getUsersTransactions(userId, this.props.page).then(res => {
       if (res.error)
         setAlert(res)
       else {
-        setTransactions(res.success)
-        props.updateState({
+        if (this.props.page === 1) {
+          this.setState({
+            transactions: res.success
+          })
+        }
+        else {
+          this.setState({
+            transactions: [...this.state.transactions, ...res.success]
+          })
+        }
+        this.props.updateState({
           refreshing: false,
           loadingNextItems: false,
-          showEmptyView: !transactions
+          showEmptyView: !this.state.transactions
         })
       }
     })
-  }, []);
-
-  return (
-    <View style={{
-      flex: 1
-    }}>
-      {alert ? <AlertModal
-        message={alert}
-        onOkClicked={() => {
-          setAlert(undefined)
-        }}
-      /> : null}
-      <FlatList
-        keyExtractor={(item, index) => index.toString()}
-        data={transactions}
-        renderItem={({ item, index }) =>
-          <TransactionsItem
-            item={item}
-          />
-        }
-        onRefresh={() => handleRefresh(props)}
-        onEndReached={() => handleEndReached(props)}
-        onEndReachedThreshold={0.5}
-        refreshing={props.refreshing}
-      />
-    </View>
-  );
-};
-
-const handleRefresh = async (props) => {
-  await props.updateState({
-    page: 1,
-    refreshing: true
-  })
-
-  getUserTransactions(props).then(res => {
-    if (res.error)
-      setAlert(res)
-    else {
-      setTransactions(res.success)
-      props.updateState({
-        refreshing: false,
-        loadingNextItems: false,
-        showEmptyView: !transactions
-      })
-    }
-  })
-}
-
-const handleEndReached = async (props) => {
-
-  if (!props.hasMoreItems) {
-    return
   }
 
-  await props.updateState({
-    refreshing: false,
-    loadingNextItems: true,
-    page: props.page + 1,
-  })
+  componentDidMount() {
+    this.getTransactions()
+  }
 
-  getUserTransactions(props).then(res => {
-    if (res.error)
-      setAlert(res)
-    else {
-      setTransactions([...transactions, ...res.success])
-      props.updateState({
-        refreshing: false,
-        loadingNextItems: false,
-        showEmptyView: !transactions
-      })
+  render() {
+    const { alert, transactions } = this.state
+    return (
+      <View style={{
+        flex: 1
+      }}>
+        {alert ? <AlertModal
+          message={alert}
+          onOkClicked={() => {
+            this.setState({
+              alert: alert
+            })
+          }}
+        /> : null}
+        <FlatList
+          keyExtractor={(item, index) => index.toString()}
+          data={this.props.latestTransactions}
+          renderItem={({ item, index }) =>
+            <TransactionsItem
+              hideCustomer
+              item={item}
+            />
+          }
+          onRefresh={() => this.handleRefresh()}
+          onEndReached={() => this.handleEndReached()}
+          onEndReachedThreshold={0.5}
+          refreshing={this.props.refreshing}
+        />
+      </View>
+    );
+  }
+
+  handleRefresh = async () => {
+    await this.props.updateState({
+      page: 1,
+      refreshing: true
+    })
+    this.getTransactions()
+  }
+
+  handleEndReached = async () => {
+    if (!this.props.hasMoreItems) {
+      return
     }
-  })
+    await this.props.updateState({
+      refreshing: false,
+      loadingNextItems: true,
+      page: this.props.page + 1,
+    })
+    this.getTransactions()
+  }
 }
 
 function mapStateToProps(state) {

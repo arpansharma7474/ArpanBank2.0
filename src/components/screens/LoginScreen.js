@@ -10,6 +10,14 @@ import { googleLogin } from '../../redux/actions/AuthActions'
 import { connect } from 'react-redux'
 
 class LoginScreen extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.props.navigation.setOptions({
+            headerShown: false
+        });
+    }
+
     render() {
         return (
             <View style={{

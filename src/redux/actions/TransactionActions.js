@@ -1,9 +1,11 @@
 import {
     LATEST_TRANSACTIONS,
-    LOADING_STATUS
+    LOADING_STATUS,
+    USER_TRANSACTIONS
 } from './types';
 import firebase from 'react-native-firebase'
 import { getMillisFromDate } from '../../utils/TimeUtils'
+import UsersScreen from '../../components/screens/UsersScreen';
 
 export const getLatestTransactions = () => {
     return async dispatch => {
@@ -33,7 +35,9 @@ export const getUsersTransactions = (userId, page) => {
         try {
             const response = await fetch('https://us-central1-arpanbank-ac07f.cloudfunctions.net/transactions?userId=' + userId + '&page=' + page)
             const transactions = await response.json()
-            console.log(transactions, "transactions")
+            if (transactions.status !== 200)
+                throw (transactions.message)
+            dispatch({ type: USER_TRANSACTIONS, payload: transactions.transactions });
             dispatch({ type: LOADING_STATUS, payload: false });
             return { success: transactions.transactions };
         } catch (err) {
