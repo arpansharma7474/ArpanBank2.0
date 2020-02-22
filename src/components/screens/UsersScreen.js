@@ -17,13 +17,15 @@ class UsersScreen extends React.PureComponent {
 
     constructor(props) {
         super(props)
-        console.log(this.props.User)
         this.state = {
             alert: undefined
         }
-        this.props.navigation.setOptions({
+        props.navigation.setOptions({
             headerShown: false
         });
+    }
+
+    componentDidMount() {
         this.props.getUsersTransactions(this.props.User.id, this.props.page)
             .then(res => {
                 console.log(this.props.usersTransactions, "props")
