@@ -13,6 +13,7 @@ import {
 export default TextField = props => {
     return (
         <OutlinedTextField
+            editable={props.editable}
             style={{
                 fontFamily: "Monaco"
             }}

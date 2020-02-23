@@ -26,17 +26,17 @@ class UsersScreen extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.getUsersTransactions(this.props.User.id, this.props.page)
-            .then(res => {
-                console.log(this.props.usersTransactions, "props")
-                if (res.error)
-                    this.setState({
-                        alert: res.error
-                    })
-                this.props.updateState({
-                    showEmptyView: this.props.usersTransactions
-                })
-            })
+        // this.props.getUsersTransactions(this.props.User.id, this.props.page)
+        //     .then(res => {
+        //         console.log(this.props.usersTransactions, "props")
+        //         if (res.error)
+        //             this.setState({
+        //                 alert: res.error
+        //             })
+        //         this.props.updateState({
+        //             showEmptyView: this.props.usersTransactions
+        //         })
+        //     })
     }
 
     render() {
