@@ -1,12 +1,14 @@
 import React from 'react';
-import {Image, TouchableOpacity, View} from 'react-native';
+import { Image, TouchableOpacity, View } from 'react-native';
 import WrapperComponent from '../WrapperComponent';
-import {normalize} from '../../utils/Constants';
+import { normalize } from '../../utils/Constants';
 import AppTextField from '../reusable_comp/AppTextField';
 import AppButton from '../reusable_comp/AppButton';
 import ListSelectionModal from '../reusable_comp/ListSelectionModal';
-import {getLocations} from '../../redux/actions/LocationsActions';
-import {connect} from 'react-redux';
+import { getLocations } from '../../redux/actions/LocationsActions';
+import { addMoney } from '../../redux/actions/TransactionActions';
+import { connect } from 'react-redux';
+import { DatePickerDialog } from 'react-native-datepicker-dialog'
 
 class AddTransaction extends React.PureComponent {
   constructor(props) {
@@ -15,7 +17,7 @@ class AddTransaction extends React.PureComponent {
       error: undefined,
       amount: 0,
       message: '',
-      date: undefined,
+      date: new Date(),
 
       showModal: false,
       locations: [],
@@ -35,12 +37,13 @@ class AddTransaction extends React.PureComponent {
   }
 
   componentDidMount() {
+    this.dateRef.setValue(new Date().toDateString())
     this.getLocations();
   }
 
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         {this.state.showModal ? (
           <ListSelectionModal
             optionsArray={this.state.locations}
@@ -58,24 +61,27 @@ class AddTransaction extends React.PureComponent {
             }}
           />
         ) : null}
+
         <AppTextField
           keyboardType="number-pad"
           label={'Amount'}
           onChangeText={text => {
             this.setState({
               amount: text,
+              error: undefined
             });
           }}
-          error={this.state.error}
+          error={this.state.error && this.state.error.error_amount}
         />
         <AppTextField
           label={'Message'}
           onChangeText={text => {
             this.setState({
               message: text,
+              error: undefined
             });
           }}
-          error={this.state.error}
+          error={this.state.error && this.state.error.error_message}
         />
         <TouchableOpacity
           onPress={() => {
@@ -90,7 +96,8 @@ class AddTransaction extends React.PureComponent {
             }}
             editable={false}
             label={'Select location'}
-            error={this.state.error}
+            error={this.state.error && this.state.error.error_location}
+
           />
           <Image
             style={{
@@ -110,9 +117,12 @@ class AddTransaction extends React.PureComponent {
             justifyContent: 'center',
           }}>
           <AppTextField
+            getRef={ref => {
+              this.dateRef = ref;
+            }}
             editable={false}
             label={'Select Date'}
-            error={this.state.error}
+            error={this.state.error && this.state.error.error_date}
           />
           <Image
             style={{
@@ -135,6 +145,7 @@ class AddTransaction extends React.PureComponent {
             this.onSubmitPressed();
           }}
         />
+        <DatePickerDialog ref="dobDialog" onDatePicked={this.onDateSelected} />
       </View>
     );
   }
@@ -151,12 +162,40 @@ class AddTransaction extends React.PureComponent {
   onLocationPressed = () => {
     this.setState({
       showModal: true,
+      error: undefined
     });
   };
 
-  onSelectDatePressed = () => {};
+  onSelectDatePressed = () => {
+    this.refs.dobDialog.open({
+      date: new Date(),
+      maxDate: new Date()
+    });
+  };
 
-  onSubmitPressed = () => {};
+  onDateSelected = date => {
+    this.setState({
+      date: date
+    })
+    this.dateRef.setValue(date.toDateString())
+  }
+
+  onSubmitPressed = async () => {
+    const res = await this.props.addMoney({
+      amount: this.state.amount,
+      location: this.state.selectedLocation,
+      date: this.state.date,
+      message: this.state.message
+    })
+    if (res.error) {
+      if (res.error.validationMessage)
+        this.setState({
+          error: res.error.validationMessage
+        })
+    }
+    if (res.success)
+      console.log(res)
+  };
 }
 
 function mapStateToProps(state) {
@@ -164,6 +203,9 @@ function mapStateToProps(state) {
     Loading: state.LoadingReducer.loadingStatus,
   };
 }
-export default connect(mapStateToProps, {getLocations})(
+export default connect(mapStateToProps, {
+  getLocations,
+  addMoney
+})(
   WrapperComponent(AddTransaction),
 );

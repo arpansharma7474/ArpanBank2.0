@@ -57,6 +57,18 @@ export const getOrderDateString = dateInString => {
     return dateInString ? getDate(dateInString).toDateString() : ""
 }
 
+export const getTimeFormatted = (today) => {
+    let date = getRoundedDigit(today.getDate()) + "-" +
+        getRoundedDigit(today.getMonth() + 1) + "-" +
+        today.getFullYear() + " " +
+        getRoundedDigit(today.getHours()) + ":" +
+        getRoundedDigit(today.getMinutes());
+    return date
+}
+
+function getRoundedDigit(number) {
+    return String("0" + number).slice(-2);
+}
 
 export const getMillisFromDate = (stringDate) => {
     // Date.parse('dd-MM-yyyy HH:mm');

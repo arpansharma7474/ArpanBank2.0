@@ -4,8 +4,8 @@ import {
     USER_TRANSACTIONS
 } from './types';
 import firebase from 'react-native-firebase'
-import { getMillisFromDate } from '../../utils/TimeUtils'
-import UsersScreen from '../../components/screens/UsersScreen';
+import { validateAddTransactionObject } from '../../utils/ValidationHelpers'
+import { getTimeFormatted } from '../../utils/TimeUtils';
 
 export const getLatestTransactions = () => {
     return async dispatch => {
@@ -48,3 +48,33 @@ export const getUsersTransactions = (userId, page) => {
     };
 };
 
+
+export const addMoney = (addMoneyObj) => {
+    return async (dispatch, getState) => {
+        // dispatch({ type: LOADING_STATUS, payload: true });
+        try {
+            await validateAddTransactionObject(addMoneyObj)
+            const user = getState().persistedReducer.userDetails
+            const firestoreRef = firebase.firestore().collection('transactions');
+            const obj = {
+                user: user,
+                amount: addMoneyObj.amount,
+                date: getTimeFormatted(addMoneyObj.date),
+                message: addMoneyObj.message,
+                time: addMoneyObj.date.getTime(),
+                location: {
+                    lat: addMoneyObj.location.lat,
+                    lng: addMoneyObj.location.long,
+                    name: addMoneyObj.location.title
+                }
+            }
+            await firestoreRef.add(obj)
+            // increase moneyowed of user
+            return { success: "Money Successfully Added" }
+        }
+        catch (err) {
+            console.log(err)
+            return { error: err }
+        }
+    }
+}
