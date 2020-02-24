@@ -18,8 +18,10 @@ class AddTransaction extends React.PureComponent {
             error: undefined,
             amount: 0,
             message: "",
+            date: undefined,
+
             showModal: false,
-            locations: ["jkbfjwf", "ejhbf"],
+            locations: [],
             selectedLocation: {}
         }
         this.props.navigation.setOptions({
@@ -94,8 +96,35 @@ class AddTransaction extends React.PureComponent {
                     />
                     <Image
                         style={{
-                            width: 30,
-                            height: 30,
+                            width: 20,
+                            height: 20,
+                            position: "absolute",
+                            right: 20,
+                        }}
+                        source={require("../../assets/ic_download.png")}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {
+                        this.onSelectDatePressed()
+                    }}
+                    style={{
+                        justifyContent: "center"
+                    }}>
+                    <AppTextField
+                        editable={false}
+                        label={"Select Date"}
+                        onChangeText={text => {
+                            this.setState({
+                                message: text
+                            })
+                        }}
+                        error={this.state.error}
+                    />
+                    <Image
+                        style={{
+                            width: 20,
+                            height: 20,
                             position: "absolute",
                             right: 20,
                         }}
@@ -122,6 +151,10 @@ class AddTransaction extends React.PureComponent {
         this.setState({
             showModal: true
         })
+    }
+
+    onSelectDatePressed = () => {
+
     }
 
     onSubmitPressed = () => {
