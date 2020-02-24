@@ -71,7 +71,7 @@ export default class CreatePostOptionModal extends Component {
                                         paddingVertical: 10,
                                         borderBottomWidth: StyleSheet.hairlineWidth,
                                         fontSize: normalize(15)
-                                    }}>Hello</Text>
+                                    }}>{item.title}</Text>
                                 </TouchableOpacity>
                             }
                         />

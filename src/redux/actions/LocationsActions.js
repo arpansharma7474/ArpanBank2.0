@@ -3,9 +3,10 @@ import { LOADING_STATUS } from '../actions/types'
 
 
 export const getLocations = () => {
-    dispatch({ type: LOADING_STATUS, payload: true });
-    return async disptach => {
+
+    return async dispatch => {
         try {
+            // dispatch({ type: LOADING_STATUS, payload: true });
             const res = await firebase.firestore().collection("locations").get()
             const array = []
             res.forEach(obj => {
