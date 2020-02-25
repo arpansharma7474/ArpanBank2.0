@@ -27,7 +27,6 @@ const AdminScreen = props => {
     const [alert, setAlert] = useState(undefined)
 
     useEffect(() => {
-        console.log("props", props)
         const getUsersFirebase = async () => {
             return await props.getUsers()
         }

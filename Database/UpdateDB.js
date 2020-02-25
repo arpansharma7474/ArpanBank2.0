@@ -22,10 +22,10 @@ checkTransactions = async () => {
             const res = await currentDoc.update({
                 time: item.data().date ? getMillisFromDate(item.data().date) : 1320990071000
             })
-            console.log(res, "updated")
+            console.log(res)
         }
     } catch (err) {
-        console.log("Error", err)
+        console.log(err)
     }
     process.exit()
 }

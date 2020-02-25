@@ -15,7 +15,6 @@ const SplashScreen = props => {
 
     useEffect(() => {
         setTimeout(() => {
-            console.log(props.User, "props on splash")
             if (props.User.name) {
                 if (props.User.isAdmin)
                     props.navigation.navigate("Admin")

@@ -1,5 +1,6 @@
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
 import firebase from 'react-native-firebase';
+import { log } from '../utils/Logger';
 
 export const googleSignin = async () => {
     try {
@@ -19,10 +20,9 @@ export const googleSignin = async () => {
             profile_picture: userData.photoURL
         }
     } catch (e) {
-        console.log(e, "google login error")
         if (!e.code === statusCodes.SIGN_IN_CANCELLED) {
             if (e.toString().startsWith("Error: RNGoogleSignInError"))
-                console.log(e, "error")
+                log(e, "error")
             else
                 throw e;
         }

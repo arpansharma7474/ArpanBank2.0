@@ -18,12 +18,10 @@ export const getUsers = () => {
             usersRef.docs.forEach(item => {
                 users.push(item.data())
             })
-            console.log(users, "Users")
             dispatch({ type: LOADING_STATUS, payload: false });
             saveUsers(dispatch, users)
             return { success: "Users found Successfully" };
         } catch (err) {
-            console.log(err, "get Users")
             dispatch({ type: LOADING_STATUS, payload: false });
             return { error: err };
         }

@@ -14,7 +14,6 @@ export const getLocations = () => {
             })
             return ({ success: array })
         } catch (err) {
-            console.log(err, "location error")
             return ({ error: err })
         }
     }

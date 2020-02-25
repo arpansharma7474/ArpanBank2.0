@@ -11,6 +11,7 @@ import WrapperComponent from '../WrapperComponent'
 import TransactionsItem from '../reusable_comp/TransactionsItem'
 import { connect } from 'react-redux'
 import { getUsersTransactions } from '../../redux/actions/TransactionActions'
+import { logoutUser } from '../../redux/actions/AuthActions'
 import { normalize } from '../../utils/Constants'
 
 class UsersScreen extends React.PureComponent {
@@ -26,17 +27,16 @@ class UsersScreen extends React.PureComponent {
     }
 
     componentDidMount() {
-        // this.props.getUsersTransactions(this.props.User.id, this.props.page)
-        //     .then(res => {
-        //         console.log(this.props.usersTransactions, "props")
-        //         if (res.error)
-        //             this.setState({
-        //                 alert: res.error
-        //             })
-        //         this.props.updateState({
-        //             showEmptyView: this.props.usersTransactions
-        //         })
-        //     })
+        this.props.getUsersTransactions(this.props.User.id, this.props.page)
+            .then(res => {
+                if (res.error)
+                    this.setState({
+                        alert: res.error
+                    })
+                this.props.updateState({
+                    showEmptyView: !this.props.usersTransactions
+                })
+            })
     }
 
     render() {
@@ -70,7 +70,7 @@ class UsersScreen extends React.PureComponent {
                         onPress={() => {
                             this.props.logoutUser()
                                 .then(res => {
-                                    props.navigation.reset({ index: 0, routes: [{ name: "Login" }] })
+                                    this.props.navigation.reset({ index: 0, routes: [{ name: "Login" }] })
                                 })
                         }}
                     />
@@ -166,7 +166,8 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-    getUsersTransactions
+    getUsersTransactions,
+    logoutUser
 })(WrapperComponent(UsersScreen, {
     empty_list_message: "No Transaction Found",
 }))

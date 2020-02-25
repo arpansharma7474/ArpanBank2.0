@@ -39,7 +39,6 @@ export const googleLogin = () => {
             persistUser(dispatch, returnUserObj);
             return { success: returnUserObj };
         } catch (err) {
-            console.log(err, "Login Error")
             dispatch({ type: LOADING_STATUS, payload: false });
             return { error: err };
         }

@@ -193,8 +193,9 @@ class AddTransaction extends React.PureComponent {
           error: res.error.validationMessage
         })
     }
-    if (res.success)
-      console.log(res)
+    if (res.success){
+      
+    }
   };
 }
 

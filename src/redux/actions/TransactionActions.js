@@ -1,12 +1,14 @@
 import {
     LATEST_TRANSACTIONS,
     LOADING_STATUS,
-    USER_TRANSACTIONS
+    USER_TRANSACTIONS,
+    USER_DETAILS
 } from './types';
 import firebase from 'react-native-firebase'
 import { validateAddTransactionObject } from '../../utils/ValidationHelpers'
 import { getTimeFormatted } from '../../utils/TimeUtils';
 
+/**get Latest Transactions for the Admin */
 export const getLatestTransactions = () => {
     return async dispatch => {
         dispatch({ type: LOADING_STATUS, payload: true });
@@ -17,18 +19,17 @@ export const getLatestTransactions = () => {
             transactionsRef.forEach(item => {
                 transactions.push(item.data())
             })
-            console.log(transactions, "transactions")
             dispatch({ type: LATEST_TRANSACTIONS, payload: transactions });
             dispatch({ type: LOADING_STATUS, payload: false });
             return { success: "Transactions found Successfully" };
         } catch (err) {
-            console.log(err)
             dispatch({ type: LOADING_STATUS, payload: false });
             return { error: err };
         }
     };
 };
 
+/** get User transactions */
 export const getUsersTransactions = (userId, page) => {
     return async dispatch => {
         dispatch({ type: LOADING_STATUS, payload: true });
@@ -41,17 +42,17 @@ export const getUsersTransactions = (userId, page) => {
             dispatch({ type: LOADING_STATUS, payload: false });
             return { success: transactions.transactions };
         } catch (err) {
-            console.log(err)
             dispatch({ type: LOADING_STATUS, payload: false });
             return { error: err };
         }
     };
 };
 
+/** Add Money to transactions */
 
 export const addMoney = (addMoneyObj) => {
     return async (dispatch, getState) => {
-        // dispatch({ type: LOADING_STATUS, payload: true });
+        dispatch({ type: LOADING_STATUS, payload: true });
         try {
             await validateAddTransactionObject(addMoneyObj)
             const user = getState().persistedReducer.userDetails
@@ -70,10 +71,19 @@ export const addMoney = (addMoneyObj) => {
             }
             await firestoreRef.add(obj)
             // increase moneyowed of user
+            user.moneyOwed = parseInt(user.moneyOwed) + parseInt(addMoneyObj.amount)
+            dispatch({ type: USER_DETAILS, payload: user });
+            // add to User Transactions
+            const userTransactions = getState().TransactionReducers.usersTransactions
+            
+            userTransactions.push(obj)
+            const sortedTransactions = userTransactions.sort((a, b) => a.time - b.time)
+            dispatch({ type: USER_TRANSACTIONS, payload: sortedTransactions });
+            dispatch({ type: LOADING_STATUS, payload: false });
             return { success: "Money Successfully Added" }
         }
         catch (err) {
-            console.log(err)
+            dispatch({ type: LOADING_STATUS, payload: false });
             return { error: err }
         }
     }
