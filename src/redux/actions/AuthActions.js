@@ -31,7 +31,7 @@ export const googleLogin = () => {
                     "name": loginResult.name,
                     "email": loginResult.email,
                     "firebaseToken": device_token,
-                    "photoUrl": loginResult.photoUrl,
+                    "photoUrl": loginResult.profile_picture,
                 }
                 const result = await firestoreRef.add(returnUserObj)
             }

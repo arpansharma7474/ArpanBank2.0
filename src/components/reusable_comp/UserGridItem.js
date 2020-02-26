@@ -10,6 +10,8 @@ import { normalize } from '../../utils/Constants'
 import AppButton from './AppButton'
 
 export default UsersGridItem = props => {
+
+    console.log(props.item, "item")
     const item = props.item
     return (
         <View style={{
