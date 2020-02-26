@@ -7,6 +7,7 @@ import {
 import firebase from 'react-native-firebase'
 import { validateAddTransactionObject } from '../../utils/ValidationHelpers'
 import { getTimeFormatted } from '../../utils/TimeUtils';
+import { log } from '../../utils/Logger';
 
 /**get Latest Transactions for the Admin */
 export const getLatestTransactions = () => {
@@ -57,6 +58,7 @@ export const addMoney = (addMoneyObj) => {
             await validateAddTransactionObject(addMoneyObj)
             const user = getState().persistedReducer.userDetails
             const firestoreRef = firebase.firestore().collection('transactions');
+            const userRef = firebase.firestore().collection('users');
             const obj = {
                 user: user,
                 amount: addMoneyObj.amount,
@@ -72,10 +74,13 @@ export const addMoney = (addMoneyObj) => {
             await firestoreRef.add(obj)
             // increase moneyowed of user
             user.moneyOwed = parseInt(user.moneyOwed) + parseInt(addMoneyObj.amount)
+            const myUser = (await userRef.where("id", "==", user.id).get())
+            await userRef.doc(myUser.docs[0].id).update({
+                moneyOwed: user.moneyOwed
+            })
             dispatch({ type: USER_DETAILS, payload: user });
             // add to User Transactions
-            const userTransactions = getState().TransactionReducers.usersTransactions
-            
+            const userTransactions = getState().TransactionReducer.usersTransactions
             userTransactions.push(obj)
             const sortedTransactions = userTransactions.sort((a, b) => a.time - b.time)
             dispatch({ type: USER_TRANSACTIONS, payload: sortedTransactions });

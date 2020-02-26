@@ -41,7 +41,7 @@ class UsersScreen extends React.PureComponent {
 
     render() {
         return (
-            <ScrollView
+            <View
                 style={{ flex: 1 }}>
                 <View style={{
                     flexDirection: 'row',
@@ -128,7 +128,7 @@ class UsersScreen extends React.PureComponent {
                         />
                     }
                 />
-            </ScrollView>
+            </View>
         )
     }
 

@@ -55,6 +55,7 @@ export default class CreatePostOptionModal extends Component {
                                 height: 300,
                                 width: "100%"
                             }}
+                            keyboardShouldPersistTaps={'always'}
                             data={this.props.optionsArray}
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item, index }) =>

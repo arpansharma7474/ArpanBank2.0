@@ -1,7 +1,8 @@
 import React from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { Image, TouchableOpacity, View, Keyboard } from 'react-native';
 import WrapperComponent from '../WrapperComponent';
 import { normalize } from '../../utils/Constants';
+import AlertModal from '../reusable_comp/AlertModal';
 import AppTextField from '../reusable_comp/AppTextField';
 import AppButton from '../reusable_comp/AppButton';
 import ListSelectionModal from '../reusable_comp/ListSelectionModal';
@@ -9,8 +10,10 @@ import { getLocations } from '../../redux/actions/LocationsActions';
 import { addMoney } from '../../redux/actions/TransactionActions';
 import { connect } from 'react-redux';
 import { DatePickerDialog } from 'react-native-datepicker-dialog'
+import { log } from '../../utils/Logger';
 
 class AddTransaction extends React.PureComponent {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -18,11 +21,12 @@ class AddTransaction extends React.PureComponent {
       amount: 0,
       message: '',
       date: new Date(),
-
       showModal: false,
       locations: [],
       selectedLocation: {},
+      alert: undefined
     };
+
     this.props.navigation.setOptions({
       title: 'Add Transaction',
       headerStyle: {
@@ -44,6 +48,16 @@ class AddTransaction extends React.PureComponent {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        {this.state.alert ? <AlertModal
+          message={this.state.alert}
+          onOkClicked={() => {
+            this.setState({
+              alert: undefined
+            }, () => {
+              this.props.navigation.goBack()
+            })
+          }}
+        /> : null}
         {this.state.showModal ? (
           <ListSelectionModal
             optionsArray={this.state.locations}
@@ -181,6 +195,7 @@ class AddTransaction extends React.PureComponent {
   }
 
   onSubmitPressed = async () => {
+    Keyboard.dismiss()
     const res = await this.props.addMoney({
       amount: this.state.amount,
       location: this.state.selectedLocation,
@@ -192,9 +207,15 @@ class AddTransaction extends React.PureComponent {
         this.setState({
           error: res.error.validationMessage
         })
+      else
+        this.setState({
+          alert: res
+        })
     }
-    if (res.success){
-      
+    if (res.success) {
+      this.setState({
+        alert: res
+      })
     }
   };
 }

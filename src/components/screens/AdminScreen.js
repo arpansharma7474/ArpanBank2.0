@@ -17,6 +17,7 @@ import AlertModal from '../reusable_comp/AlertModal'
 import { getUsers } from '../../redux/actions/UserActions'
 import { logoutUser } from '../../redux/actions/AuthActions'
 import { getLatestTransactions } from '../../redux/actions/TransactionActions'
+import { log } from '../../utils/Logger'
 
 const AdminScreen = props => {
 
