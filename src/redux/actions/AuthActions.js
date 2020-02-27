@@ -5,6 +5,7 @@ import {
 } from './types';
 import { googleSignin } from '../../utils/SocialLogin';
 import firebase from 'react-native-firebase';
+import { log } from 'react-native-reanimated';
 
 const persistUser = (dispatch, message) => {
     dispatch({ type: USER_DETAILS, payload: message });
@@ -20,11 +21,16 @@ export const googleLogin = () => {
             const checkUserDoc = await firestoreRef.where("id", "==", loginResult.uid).get()
             const checkUser = checkUserDoc.docs
             let returnUserObj = {}
+            const device_token = await firebase.messaging().getToken();
             if (checkUser.length > 0) {
-                returnUserObj = checkUser[0].data()
+                returnUserObj = {
+                    ...checkUser[0].data(),
+                    firebaseToken: device_token,
+                    photoUrl: loginResult.profile_picture
+                }
+                await firestoreRef.doc(checkUserDoc.docs[0].id).update(returnUserObj)
                 // exists 
             } else {
-                const device_token = await firebase.messaging().getToken();
                 returnUserObj = {
                     "moneyOwed": 0,
                     "id": loginResult.uid,
@@ -33,6 +39,7 @@ export const googleLogin = () => {
                     "firebaseToken": device_token,
                     "photoUrl": loginResult.profile_picture,
                 }
+                log(returnUserObj, "userObj", loginResult)
                 const result = await firestoreRef.add(returnUserObj)
             }
             dispatch({ type: LOADING_STATUS, payload: false });

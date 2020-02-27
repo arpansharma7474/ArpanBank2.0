@@ -27,8 +27,9 @@ export default UsersGridItem = props => {
                 overflow: "hidden"
             }}>
                 <Image
+                    source={{ uri: item.photoUrl }}
                     style={{
-                        height: 25,
+                        height: 30,
                         aspectRatio: 1,
                         backgroundColor: 'grey',
                         borderRadius: 15
