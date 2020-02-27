@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getUsersTransactions } from '../../redux/actions/TransactionActions'
 import AlertModal from '../reusable_comp/AlertModal'
 import { normalize } from '../../utils/Constants';
+import { log } from '../../utils/Logger';
 
 class TransactionScreen extends React.PureComponent {
 
@@ -29,27 +30,29 @@ class TransactionScreen extends React.PureComponent {
 
   getTransactions() {
     const userId = this.props.route.params.user.id
-    this.props.getUsersTransactions(userId, this.props.page).then(res => {
-      if (res.error)
-        setAlert(res)
-      else {
-        if (this.props.page === 1) {
-          this.setState({
-            transactions: res.success
-          })
-        }
+    this.props.getUsersTransactions(userId, this.props.page)
+      .then(res => {
+        log("error", res)
+        if (res.error)
+          setAlert(res)
         else {
-          this.setState({
-            transactions: [...this.state.transactions, ...res.success]
+          if (this.props.page === 1) {
+            this.setState({
+              transactions: res.success
+            })
+          }
+          else {
+            this.setState({
+              transactions: [...this.state.transactions, ...res.success]
+            })
+          }
+          this.props.updateState({
+            refreshing: false,
+            loadingNextItems: false,
+            showEmptyView: !this.state.transactions
           })
         }
-        this.props.updateState({
-          refreshing: false,
-          loadingNextItems: false,
-          showEmptyView: !this.state.transactions
-        })
-      }
-    })
+      })
   }
 
   componentDidMount() {
@@ -72,7 +75,7 @@ class TransactionScreen extends React.PureComponent {
         /> : null}
         <FlatList
           keyExtractor={(item, index) => index.toString()}
-          data={this.props.latestTransactions}
+          data={this.state.transactions}
           renderItem={({ item, index }) =>
             <TransactionsItem
               hideCustomer

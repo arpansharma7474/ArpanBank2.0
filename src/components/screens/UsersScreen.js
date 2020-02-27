@@ -43,12 +43,23 @@ class UsersScreen extends React.PureComponent {
         return (
             <View
                 style={{ flex: 1 }}>
-                <View style={{
-                    flexDirection: 'row',
-                    position: "absolute",
-                    right: 10
-                }}>
+                <ScrollView
+                    horizontal={true}
+                    style={{
+                        flexDirection: 'row',
+                        position: "absolute",
+                        right: 10
+                    }}>
+                    <AppButton
+                        style={{
+                            marginVertical: 10,
+                            padding: 7
+                        }}
+                        title={"Generate Paid Request"}
+                        onPress={() => {
 
+                        }}
+                    />
                     <AppButton
                         style={{
                             marginVertical: 10,
@@ -74,60 +85,65 @@ class UsersScreen extends React.PureComponent {
                                 })
                         }}
                     />
-                </View>
-                {/**Money View */}
-                <View style={[styles.main_views, {
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginTop: normalize(50)
-                }]}>
-                    <Text
-                        style={styles.money_text, {
-                            fontSize: normalize(14),
-                            color: "black",
-                            textAlign: 'center',
-                            fontFamily: "Monaco"
-                        }}>Hello {this.props.User.name}, You have following amount pending : </Text>
-                    <Text style={[styles.money_text, {
-                        marginVertical: 20,
-                        fontSize: normalize(30)
-                    }]}>Rs {this.props.User.moneyOwed}</Text>
-                </View>
-                {/**Transactions */}
-                <View style={[styles.main_views, {
-                    marginVertical: 5,
-                    marginHorizontal: 5,
-                    flexDirection: 'row',
-                    alignItems: 'center'
-                }]}>
-                    <Text style={[styles.normal_text, {
-                        fontSize: normalize(14),
+                </ScrollView>
+                <ScrollView
+                    style={{
+                        flex: 1,
+                        marginTop: normalize(50)
+                    }}>
+                    {/**Money View */}
+                    <View style={[styles.main_views, {
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }]}>
+                        <Text
+                            style={styles.money_text, {
+                                fontSize: normalize(14),
+                                color: "black",
+                                textAlign: 'center',
+                                fontFamily: "Monaco"
+                            }}>Hello {this.props.User.name}, You have following amount pending : </Text>
+                        <Text style={[styles.money_text, {
+                            marginVertical: 20,
+                            fontSize: normalize(30)
+                        }]}>Rs {this.props.User.moneyOwed}</Text>
+                    </View>
+                    {/**Transactions */}
+                    <View style={[styles.main_views, {
                         marginVertical: 5,
-                        textAlign: "left",
-                        color: "green",
-                    }]}>Latest Transactions</Text>
-                    {this.props.usersTransactions.length > 0 ? <AppButton
-                        style={{
-                            position: "absolute",
+                        marginHorizontal: 5,
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }]}>
+                        <Text style={[styles.normal_text, {
+                            fontSize: normalize(14),
                             marginVertical: 5,
-                            right: 10,
-                            padding: 5
-                        }}
-                        title={"See All"}
-                        onPress={() => {
-                            this.seeAllTransactionsPressed()
-                        }}
-                    /> : null}
-                </View>
-                <FlatList
-                    keyExtractor={(item, index) => index.toString()}
-                    data={this.props.usersTransactions.slice(0, 9)}
-                    renderItem={({ item, index }) =>
-                        <TransactionsItem
-                            item={item}
-                        />
-                    }
-                />
+                            textAlign: "left",
+                            color: "green",
+                        }]}>Latest Transactions</Text>
+                        {this.props.usersTransactions.length > 0 ? <AppButton
+                            style={{
+                                position: "absolute",
+                                marginVertical: 5,
+                                right: 10,
+                                padding: 5
+                            }}
+                            title={"See All"}
+                            onPress={() => {
+                                this.seeAllTransactionsPressed()
+                            }}
+                        /> : null}
+                    </View>
+                    <FlatList
+                        keyExtractor={(item, index) => index.toString()}
+                        data={this.props.usersTransactions.slice(0, 5)}
+                        renderItem={({ item, index }) =>
+                            <TransactionsItem
+                                item={item}
+                            />
+                        }
+                    />
+                </ScrollView>
             </View>
         )
     }
