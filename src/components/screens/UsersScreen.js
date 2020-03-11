@@ -10,9 +10,13 @@ import AppButton from '../reusable_comp/AppButton'
 import WrapperComponent from '../WrapperComponent'
 import TransactionsItem from '../reusable_comp/TransactionsItem'
 import { connect } from 'react-redux'
-import { getUsersTransactions } from '../../redux/actions/TransactionActions'
+import {
+    getUsersTransactions,
+    generatePaidRequest
+} from '../../redux/actions/TransactionActions'
 import { logoutUser } from '../../redux/actions/AuthActions'
 import { normalize } from '../../utils/Constants'
+import { log } from '../../utils/Logger'
 
 class UsersScreen extends React.PureComponent {
 
@@ -57,7 +61,7 @@ class UsersScreen extends React.PureComponent {
                         }}
                         title={"Generate Paid Request"}
                         onPress={() => {
-
+                            this.onPaidRequestClicked()
                         }}
                     />
                     <AppButton
@@ -151,6 +155,13 @@ class UsersScreen extends React.PureComponent {
     seeAllTransactionsPressed = () => {
         this.props.navigation.navigate("TransactionsScreen", { user: this.props.User })
     }
+
+    onPaidRequestClicked = async () => {
+        const res = await this.props.generatePaidRequest()
+        this.setState({
+            alert: res
+        })
+    }
 }
 
 
@@ -183,7 +194,8 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
     getUsersTransactions,
-    logoutUser
+    logoutUser,
+    generatePaidRequest
 })(WrapperComponent(UsersScreen, {
     empty_list_message: "No Transaction Found",
 }))

@@ -52,7 +52,6 @@ export const getUsersTransactions = (userId, page) => {
 };
 
 /** Add Money to transactions */
-
 export const addMoney = (addMoneyObj) => {
     return async (dispatch, getState) => {
         dispatch({ type: LOADING_STATUS, payload: true });
@@ -90,6 +89,33 @@ export const addMoney = (addMoneyObj) => {
             return { success: "Money Successfully Added" }
         }
         catch (err) {
+            dispatch({ type: LOADING_STATUS, payload: false });
+            return { error: err }
+        }
+    }
+}
+
+/**Generate Paid Request */
+export const generatePaidRequest = () => {
+    return async (dispatch, getState) => {
+        dispatch({ type: LOADING_STATUS, payload: true });
+        try {
+            const paidRequestRef = firebase.firestore().collection("paidRequests")
+            const user = getState().persistedReducer.userDetails
+            paidRequestRef.add({
+                user: {
+                    name: user.name,
+                    email: user.email,
+                    id: user.id,
+                    moneyOwed: user.moneyOwed
+                },
+                date: getTimeFormatted(new Date()),
+                time: new Date().getTime(),
+            })
+            dispatch({ type: LOADING_STATUS, payload: false });
+            return { success: "Paid Request generated successfully" }
+        } catch (err) {
+            log(err, "Error ")
             dispatch({ type: LOADING_STATUS, payload: false });
             return { error: err }
         }
