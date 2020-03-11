@@ -15,14 +15,15 @@ const SplashScreen = props => {
 
     useEffect(() => {
         setTimeout(() => {
+            let routeName = ""
             if (props.User.name) {
                 if (props.User.isAdmin)
-                    props.navigation.navigate("Admin")
+                    routeName = "Admin"
                 else
-                    props.navigation.navigate("UsersScreen")
-            }
-            else
-                props.navigation.navigate("Login")
+                    routeName = "UsersScreen"
+            } else
+                routeName = "Login"
+            props.navigation.reset({ index: 0, routes: [{ name: routeName }] })
         }, 1000)
     }, []);
 

@@ -102,7 +102,7 @@ export const generatePaidRequest = () => {
         try {
             const paidRequestRef = firebase.firestore().collection("paidRequests")
             const user = getState().persistedReducer.userDetails
-            paidRequestRef.add({
+            const res = await paidRequestRef.add({
                 user: {
                     name: user.name,
                     email: user.email,

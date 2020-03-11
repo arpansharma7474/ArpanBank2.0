@@ -15,6 +15,7 @@ import {
     generatePaidRequest
 } from '../../redux/actions/TransactionActions'
 import { logoutUser } from '../../redux/actions/AuthActions'
+import AlertModal from '../reusable_comp/AlertModal'
 import { normalize } from '../../utils/Constants'
 import { log } from '../../utils/Logger'
 
@@ -22,6 +23,7 @@ class UsersScreen extends React.PureComponent {
 
     constructor(props) {
         super(props)
+
         this.state = {
             alert: undefined
         }
@@ -44,9 +46,18 @@ class UsersScreen extends React.PureComponent {
     }
 
     render() {
+        const { alert } = this.state
         return (
             <View
                 style={{ flex: 1 }}>
+                {alert ? <AlertModal
+                    message={alert}
+                    onOkClicked={() => {
+                        this.setState({
+                            alert: undefined
+                        })
+                    }}
+                /> : null}
                 <ScrollView
                     horizontal={true}
                     style={{

@@ -31,7 +31,6 @@ class TransactionScreen extends React.PureComponent {
   getTransactions = async () => {
     const userId = this.props.route.params.user.id
     const res = await this.props.getUsersTransactions(userId, this.props.page)
-    log("Response ", res)
     if (res.error)
       this.setState({
         alert: res
