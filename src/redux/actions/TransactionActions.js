@@ -33,13 +33,15 @@ export const getLatestTransactions = () => {
 /** get User transactions */
 export const getUsersTransactions = (userId, page) => {
     return async dispatch => {
-        dispatch({ type: LOADING_STATUS, payload: true });
+        if (page == 1)
+            dispatch({ type: LOADING_STATUS, payload: true });
         try {
             const response = await fetch('https://us-central1-arpanbank-ac07f.cloudfunctions.net/transactions?userId=' + userId + '&page=' + page)
             const transactions = await response.json()
             if (transactions.status !== 200)
                 throw (transactions.message)
-            dispatch({ type: USER_TRANSACTIONS, payload: transactions.transactions });
+            if (page == 1)
+                dispatch({ type: USER_TRANSACTIONS, payload: transactions.transactions });
             dispatch({ type: LOADING_STATUS, payload: false });
             return { success: transactions.transactions };
         } catch (err) {

@@ -28,31 +28,32 @@ class TransactionScreen extends React.PureComponent {
     });
   }
 
-  getTransactions() {
+  getTransactions = async () => {
     const userId = this.props.route.params.user.id
-    this.props.getUsersTransactions(userId, this.props.page)
-      .then(res => {
-        log("error", res)
-        if (res.error)
-          setAlert(res)
-        else {
-          if (this.props.page === 1) {
-            this.setState({
-              transactions: res.success
-            })
-          }
-          else {
-            this.setState({
-              transactions: [...this.state.transactions, ...res.success]
-            })
-          }
-          this.props.updateState({
-            refreshing: false,
-            loadingNextItems: false,
-            showEmptyView: !this.state.transactions
-          })
-        }
+    const res = await this.props.getUsersTransactions(userId, this.props.page)
+    log("Response ", res)
+    if (res.error)
+      this.setState({
+        alert: res
       })
+    else {
+      if (this.props.page === 1) {
+        this.setState({
+          transactions: res.success
+        })
+      }
+      else {
+        this.setState({
+          transactions: [...this.state.transactions, ...res.success]
+        })
+      }
+    }
+    this.props.updatehasMoreItems(res.success.length === 10)
+    await this.props.updateState({
+      refreshing: false,
+      loadingNextItems: false,
+      showEmptyView: !this.state.transactions,
+    })
   }
 
   componentDidMount() {
@@ -69,13 +70,13 @@ class TransactionScreen extends React.PureComponent {
           message={alert}
           onOkClicked={() => {
             this.setState({
-              alert: alert
+              alert: undefined
             })
           }}
         /> : null}
         <FlatList
           keyExtractor={(item, index) => index.toString()}
-          data={this.state.transactions}
+          data={transactions}
           renderItem={({ item, index }) =>
             <TransactionsItem
               hideCustomer
@@ -100,15 +101,15 @@ class TransactionScreen extends React.PureComponent {
   }
 
   handleEndReached = async () => {
-    if (!this.props.hasMoreItems) {
-      return
+    log("Value ", this.props.hasMoreItems, !this.props.loadingNextItems)
+    if (this.props.hasMoreItems && !this.props.loadingNextItems) {
+      await this.props.updateState({
+        refreshing: false,
+        loadingNextItems: true,
+        page: this.props.page + 1,
+      })
+      this.getTransactions()
     }
-    await this.props.updateState({
-      refreshing: false,
-      loadingNextItems: true,
-      page: this.props.page + 1,
-    })
-    this.getTransactions()
   }
 }
 
