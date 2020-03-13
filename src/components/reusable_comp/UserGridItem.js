@@ -36,7 +36,7 @@ export default UsersGridItem = props => {
                     }}
                 />
                 <Text
-                    numberOfLines={1}
+                    numberOfLines={2}
                     ellipsizeMode={"tail"}
                     style={[styles.normal_text, {
                         fontSize: normalize(10),
@@ -49,10 +49,10 @@ export default UsersGridItem = props => {
                 textAlign: 'center',
             }]}>Rs {item.moneyOwed}</Text>
             <AppButton
-                title={"Transactions"}
+                title={"Actions"}
                 onPress={() => {
-                    if (props.onTransactionPressed())
-                        props.onTransactionPressed()
+                    if (props.onActionsPressed())
+                        props.onActionsPressed()
                 }}
             />
         </View>

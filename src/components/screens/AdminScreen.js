@@ -13,6 +13,7 @@ import TransactionsItem from '../reusable_comp/TransactionsItem'
 import { connect } from 'react-redux'
 import { normalize } from '../../utils/Constants'
 import AlertModal from '../reusable_comp/AlertModal'
+import { useActionSheet } from '@expo/react-native-action-sheet'
 
 import { getUsers } from '../../redux/actions/UserActions'
 import { logoutUser } from '../../redux/actions/AuthActions'
@@ -26,6 +27,7 @@ const AdminScreen = props => {
     });
 
     const [alert, setAlert] = useState(undefined)
+    const { showActionSheetWithOptions } = useActionSheet();
 
     useEffect(() => {
         const getUsersFirebase = async () => {
@@ -106,8 +108,26 @@ const AdminScreen = props => {
                     data={props.users}
                     renderItem={({ item, index }) =>
                         <UsersGridItem
-                            onTransactionPressed={() => {
-                                transactionsPressed(props, item)
+                            onActionsPressed={() => {
+                                const options = ['Transactions', 'Clear Account', 'Cancel'];
+                                const destructiveButtonIndex = 2;
+                                const cancelButtonIndex = 2;
+                                showActionSheetWithOptions(
+                                    {
+                                        options,
+                                        cancelButtonIndex,
+                                        destructiveButtonIndex,
+                                    },
+                                    buttonIndex => {
+                                        switch (buttonIndex) {
+                                            case 0:
+                                                transactionsPressed(props, item)
+                                                break
+                                            case 1:
+                                                break
+                                        }
+                                    },
+                                );
                             }}
                             item={item}
                         />

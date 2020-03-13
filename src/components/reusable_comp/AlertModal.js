@@ -119,16 +119,11 @@ class AlertModal extends Component {
         );
     }
     getMessage = () => {
-        if (this.props.message) {
-            if (this.props.message.error)
-                return this.props.message.error.toString()
-            if (this.props.message.success)
-                return this.props.message.success.toString()
-            else
-                return "An Error has Occured"
-        } else {
-            return "An Error has Occured"
-        }
+        if (this.props.message?.error)
+            return this.props.message.error.toString()
+        if (this.props.message?.success)
+            return this.props.message.success.toString()
+        return "An Error has Occured"
     }
 
     getTitle = () => {
