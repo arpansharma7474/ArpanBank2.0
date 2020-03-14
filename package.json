@@ -5,6 +5,7 @@
   "scripts": {
     "android": "cd android && gradlew clean && cd .. && react-native run-android",
     "android_mac": "cd android && ./gradlew clean && cd .. && react-native run-android",
+    "apk": "cd android && ./gradlew clean && cd .. && react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/ && cd android && ./gradlew assembleDebug",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",

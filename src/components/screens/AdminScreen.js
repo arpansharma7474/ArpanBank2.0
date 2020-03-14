@@ -45,7 +45,6 @@ const AdminScreen = props => {
             return await props.getUpdatedUser(props.User.id)
         }
         getUpdatedAdmin().then(res => {
-            log(res, "Updated Admin")
             if (res.error)
                 setAlert(res)
         })
