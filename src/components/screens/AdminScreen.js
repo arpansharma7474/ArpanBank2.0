@@ -4,7 +4,8 @@ import {
     View,
     StyleSheet,
     FlatList,
-    ScrollView
+    ScrollView,
+    RefreshControl
 } from 'react-native'
 
 import WrapperComponent from '../WrapperComponent'
@@ -28,9 +29,12 @@ const AdminScreen = props => {
     });
 
     const [alert, setAlert] = useState(undefined)
+    const [refreshing, setRefresh] = useState(false)
     const { showActionSheetWithOptions } = useActionSheet();
 
-    useEffect(() => {
+    useEffect(() => getAdminInfo(), []);
+
+    const getAdminInfo = () => {
         const getUsersFirebase = async () => {
             return await props.getUsers()
         }
@@ -45,10 +49,21 @@ const AdminScreen = props => {
             if (res.error)
                 setAlert(res)
         })
-    }, []);
+        setRefresh(false)
+    }
+
+    const onRefresh = () => {
+        setRefresh(true)
+        getAdminInfo()
+    }
 
     return (
         <ScrollView
+            refreshControl={
+                <RefreshControl
+                    tintColor={"green"}
+                    refreshing={refreshing} onRefresh={onRefresh} />
+            }
             style={{ flex: 1 }}>
             {alert ? <AlertModal
                 message={alert}
