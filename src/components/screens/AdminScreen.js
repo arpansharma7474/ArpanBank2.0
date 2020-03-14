@@ -17,7 +17,7 @@ import AlertModal from '../reusable_comp/AlertModal'
 import { useActionSheet } from '@expo/react-native-action-sheet'
 
 import { getUsers, clearUserAccount } from '../../redux/actions/UserActions'
-import { logoutUser } from '../../redux/actions/AuthActions'
+import { logoutUser, getUpdatedUser } from '../../redux/actions/AuthActions'
 import { getLatestTransactions } from '../../redux/actions/TransactionActions'
 import { log } from '../../utils/Logger'
 import { showAlert } from '../../utils/AlertHelper'
@@ -41,6 +41,14 @@ const AdminScreen = props => {
         const getLatestTransactions = async () => {
             return await props.getLatestTransactions()
         }
+        const getUpdatedAdmin = async () => {
+            return await props.getUpdatedUser(props.User.id)
+        }
+        getUpdatedAdmin().then(res => {
+            log(res, "Updated Admin")
+            if (res.error)
+                setAlert(res)
+        })
         getUsersFirebase().then(res => {
             if (res.error)
                 setAlert(res)
@@ -226,7 +234,8 @@ function mapStateToProps(state) {
         Loading: state.LoadingReducer.loadingStatus,
         users: state.UsersReducer.users,
         totalMoney: state.UsersReducer.totalMoney,
-        latestTransactions: state.TransactionReducer.latestTransactions
+        latestTransactions: state.TransactionReducer.latestTransactions,
+        User: state.persistedReducer.userDetails,
     };
 }
 
@@ -234,5 +243,6 @@ export default connect(mapStateToProps, {
     getUsers,
     getLatestTransactions,
     logoutUser,
-    clearUserAccount
+    clearUserAccount,
+    getUpdatedUser
 })(WrapperComponent(AdminScreen))
