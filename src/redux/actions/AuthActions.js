@@ -52,6 +52,24 @@ export const googleLogin = () => {
     };
 };
 
+export const getUpdatedUser = (userId) => {
+    return async dispatch => {
+        dispatch({ type: LOADING_STATUS, payload: true });
+        try {
+            const firestoreRef = firebase.firestore().collection('users');
+            const usersRef = await firestoreRef.where("id", "==", userId).get()
+            const user = usersRef.docs[0].data()
+            persistUser(dispatch, user);
+            dispatch({ type: LOADING_STATUS, payload: false });
+            return { success: "UPdated user found" };
+        } catch (err) {
+            log(err, "Error")
+            dispatch({ type: LOADING_STATUS, payload: false });
+            return { error: err };
+        }
+    };
+}
+
 export const logoutUser = () => {
     return async dispatch => {
         persistUser(dispatch, {});

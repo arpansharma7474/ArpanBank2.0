@@ -5,6 +5,7 @@ import {
     ScrollView,
     StyleSheet,
     FlatList,
+    RefreshControl
 } from 'react-native'
 import AppButton from '../reusable_comp/AppButton'
 import WrapperComponent from '../WrapperComponent'
@@ -14,7 +15,7 @@ import {
     getUsersTransactions,
     generatePaidRequest
 } from '../../redux/actions/TransactionActions'
-import { logoutUser } from '../../redux/actions/AuthActions'
+import { logoutUser, getUpdatedUser } from '../../redux/actions/AuthActions'
 import AlertModal from '../reusable_comp/AlertModal'
 import { normalize } from '../../utils/Constants'
 import { log } from '../../utils/Logger'
@@ -23,9 +24,9 @@ class UsersScreen extends React.PureComponent {
 
     constructor(props) {
         super(props)
-
         this.state = {
-            alert: undefined
+            alert: undefined,
+            refreshing: false
         }
         props.navigation.setOptions({
             headerShown: false
@@ -33,16 +34,30 @@ class UsersScreen extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.getUsersTransactions(this.props.User.id, this.props.page)
-            .then(res => {
-                if (res.error)
-                    this.setState({
-                        alert: res.error
-                    })
-                this.props.updateState({
-                    showEmptyView: !this.props.usersTransactions
-                })
+        this.getUpdatedUser()
+    }
+
+    getUpdatedUser = async () => {
+        await this.props.getUpdatedUser(this.props.User.id)
+        const res = await this.props.getUsersTransactions(this.props.User.id, this.props.page)
+        if (res.error)
+            this.setState({
+                alert: res.error
             })
+        this.props.updateState({
+            showEmptyView: !this.props.usersTransactions
+        })
+        this.setState({
+            refreshing: false
+        })
+    }
+
+    onRefresh = () => {
+        this.setState({
+            refreshing: true
+        }, () => {
+            this.getUpdatedUser()
+        })
     }
 
     render() {
@@ -102,6 +117,11 @@ class UsersScreen extends React.PureComponent {
                     />
                 </ScrollView>
                 <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            tintColor={"green"}
+                            refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
+                    }
                     style={{
                         flex: 1,
                         marginTop: normalize(50)
@@ -206,7 +226,8 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
     getUsersTransactions,
     logoutUser,
-    generatePaidRequest
+    generatePaidRequest,
+    getUpdatedUser
 })(WrapperComponent(UsersScreen, {
     empty_list_message: "No Transaction Found",
 }))
