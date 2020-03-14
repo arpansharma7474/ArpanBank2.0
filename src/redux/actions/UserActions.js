@@ -1,6 +1,7 @@
 import {
     GET_USERS,
     LOADING_STATUS,
+    USER_ACCOUNT_CLEARED
 } from './types';
 import firebase from 'react-native-firebase';
 import { log } from '../../utils/Logger';
@@ -29,3 +30,24 @@ export const getUsers = () => {
         }
     };
 };
+
+export const clearUserAccount = (user) => {
+    return async dispatch => {
+        dispatch({ type: LOADING_STATUS, payload: true });
+        try {
+            const firestoreRef = firebase.firestore().collection('users');
+            const usersRef = await firestoreRef.where("id", "==", user.id).get()
+            const userSelected = usersRef.docs[0].data()
+            let moneyOwed = userSelected.moneyOwed
+            userSelected.moneyOwed = 0
+            await firestoreRef.doc(usersRef.docs[0].id).update(userSelected)
+            dispatch({ type: USER_ACCOUNT_CLEARED, payload: { user: userSelected, moneyOwed: moneyOwed } });
+            dispatch({ type: LOADING_STATUS, payload: false });
+            return { success: "Account Cleared Successfully" };
+        } catch (err) {
+            log(err, "Error")
+            dispatch({ type: LOADING_STATUS, payload: false });
+            return { error: err };
+        }
+    };
+}

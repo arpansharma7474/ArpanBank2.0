@@ -15,10 +15,11 @@ import { normalize } from '../../utils/Constants'
 import AlertModal from '../reusable_comp/AlertModal'
 import { useActionSheet } from '@expo/react-native-action-sheet'
 
-import { getUsers } from '../../redux/actions/UserActions'
+import { getUsers, clearUserAccount } from '../../redux/actions/UserActions'
 import { logoutUser } from '../../redux/actions/AuthActions'
 import { getLatestTransactions } from '../../redux/actions/TransactionActions'
 import { log } from '../../utils/Logger'
+import { showAlert } from '../../utils/AlertHelper'
 
 const AdminScreen = props => {
 
@@ -109,7 +110,7 @@ const AdminScreen = props => {
                     renderItem={({ item, index }) =>
                         <UsersGridItem
                             onActionsPressed={() => {
-                                const options = ['Transactions', 'Clear Account', 'Cancel'];
+                                const options = ['Transactions', 'Clear Account Balance', 'Cancel'];
                                 const destructiveButtonIndex = 2;
                                 const cancelButtonIndex = 2;
                                 showActionSheetWithOptions(
@@ -124,6 +125,7 @@ const AdminScreen = props => {
                                                 transactionsPressed(props, item)
                                                 break
                                             case 1:
+                                                clearAccountPressed(props, item)
                                                 break
                                         }
                                     },
@@ -177,6 +179,14 @@ transactionsPressed = (props, user) => {
     props.navigation.navigate("TransactionsScreen", { user: user })
 }
 
+clearAccountPressed = async (props, user) => {
+    const res = await showAlert("Are you sure you want to clear this user's pending amount?", "Clear Account", true)
+    if (res > 0) {
+        const res = await props.clearUserAccount(user)
+        showAlert(res.error ? res.error : res.success)
+    }
+}
+
 const styles = StyleSheet.create({
     main_views: {
         paddingHorizontal: 5
@@ -208,5 +218,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
     getUsers,
     getLatestTransactions,
-    logoutUser
+    logoutUser,
+    clearUserAccount
 })(WrapperComponent(AdminScreen))
