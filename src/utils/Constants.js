@@ -19,6 +19,13 @@ export const getFullName = user => {
   return user.first_name + ' ' + user.last_name;
 };
 
+export const getUserImage = user => {
+  if (user.photoUrl)
+    return { uri: user.photoUrl }
+  else
+    return require("../assets/ic_user.png")
+}
+
 export const isObject = obj => {
   return typeof obj === 'object' && obj !== null;
 };

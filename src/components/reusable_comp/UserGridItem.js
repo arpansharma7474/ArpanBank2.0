@@ -8,6 +8,8 @@ import {
 import config from '../../utils/config'
 import { normalize } from '../../utils/Constants'
 import AppButton from './AppButton'
+import { log } from '../../utils/Logger'
+import { getUserImage } from '../../utils/Constants'
 
 export default UsersGridItem = props => {
     const item = props.item
@@ -27,9 +29,11 @@ export default UsersGridItem = props => {
                 overflow: "hidden"
             }}>
                 <Image
-                    source={{ uri: item.photoUrl ? item.photoUrl : "" }}
+                    source={getUserImage(item)}
                     style={{
                         height: 30,
+                        maxHeight: 30,
+                        maxWidth: 30,
                         aspectRatio: 1,
                         backgroundColor: 'grey',
                         borderRadius: 15
