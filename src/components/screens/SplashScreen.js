@@ -84,7 +84,7 @@ setUpMessageListener = async (props) => {
             .setBody(message.body)
             .android.setPriority(firebase.notifications.Android.Priority.High)
             .android.setChannelId(channelID)
-            // .android.setSmallIcon('ic_stat_name')
+            .android.setSmallIcon('ic_stat_ic_notification')
             .android.setColor("green");
         firebase.notifications().displayNotification(notification);
     });
