@@ -74,6 +74,7 @@ setUpMessageListener = async (props) => {
 
     firebase.notifications().onNotification(message => {
         const date = new Date().toString();
+        log("Notification", message)
         const notification = new firebase.notifications.Notification({
             sound: 'default',
             priority: 'high',

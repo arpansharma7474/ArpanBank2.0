@@ -33,18 +33,18 @@ export default TransactionsItem = props => {
                 justifyContent: 'center'
             }}>
                 {!props.hideCustomer && <Text style={{
-                    fontSize: normalize(11),
+                    fontSize: normalize(12),
                     fontFamily: "Monaco",
                     color: 'black',
                 }}>Customer : {item.user ? item.user.name : item.fromUser}</Text>}
                 <Text style={{
-                    fontSize: normalize(11),
+                    fontSize: normalize(12),
                     fontFamily: "Monaco",
                     color: 'black',
                     marginTop: 5
                 }}>Desc : {item.message}</Text>
                 <Text style={{
-                    fontSize: normalize(11),
+                    fontSize: normalize(12),
                     fontFamily: "Monaco",
                     color: 'black',
                     marginTop: 5

@@ -20,7 +20,7 @@ class LoadingModal extends Component {
           backgroundColor: 'black',
           opacity: 0.3
         }} />
-        <ActivityIndicator color={config.colors.THEME_COLOR} size="large" />
+        <ActivityIndicator color={"green"} size="large" />
       </View>
     );
   }

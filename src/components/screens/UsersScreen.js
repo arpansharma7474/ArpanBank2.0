@@ -16,7 +16,7 @@ import {
     generatePaidRequest
 } from '../../redux/actions/TransactionActions'
 import { logoutUser, getUpdatedUser } from '../../redux/actions/AuthActions'
-import AlertModal from '../reusable_comp/AlertModal'
+import { showAlert } from '../../utils/AlertHelper'
 import { normalize } from '../../utils/Constants'
 import { log } from '../../utils/Logger'
 
@@ -25,7 +25,6 @@ class UsersScreen extends React.PureComponent {
     constructor(props) {
         super(props)
         this.state = {
-            alert: undefined,
             refreshing: false
         }
         props.navigation.setOptions({
@@ -41,9 +40,7 @@ class UsersScreen extends React.PureComponent {
         await this.props.getUpdatedUser(this.props.User.id)
         const res = await this.props.getUsersTransactions(this.props.User.id, this.props.page)
         if (res.error)
-            this.setState({
-                alert: res.error
-            })
+            showAlert(res.error)
         this.props.updateState({
             showEmptyView: !this.props.usersTransactions
         })
@@ -61,18 +58,9 @@ class UsersScreen extends React.PureComponent {
     }
 
     render() {
-        const { alert } = this.state
         return (
             <View
                 style={{ flex: 1 }}>
-                {alert ? <AlertModal
-                    message={alert}
-                    onOkClicked={() => {
-                        this.setState({
-                            alert: undefined
-                        })
-                    }}
-                /> : null}
                 <ScrollView
                     horizontal={true}
                     style={{
@@ -174,6 +162,7 @@ class UsersScreen extends React.PureComponent {
                         data={this.props.usersTransactions.slice(0, 5)}
                         renderItem={({ item, index }) =>
                             <TransactionsItem
+                                hideCustomer
                                 item={item}
                             />
                         }
@@ -189,9 +178,7 @@ class UsersScreen extends React.PureComponent {
 
     onPaidRequestClicked = async () => {
         const res = await this.props.generatePaidRequest()
-        this.setState({
-            alert: res
-        })
+        showAlert(res.error ? res.error : res.success)
     }
 }
 

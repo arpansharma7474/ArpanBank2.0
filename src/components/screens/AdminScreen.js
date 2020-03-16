@@ -13,14 +13,13 @@ import UsersGridItem from '../reusable_comp/UserGridItem'
 import TransactionsItem from '../reusable_comp/TransactionsItem'
 import { connect } from 'react-redux'
 import { normalize } from '../../utils/Constants'
-import AlertModal from '../reusable_comp/AlertModal'
+import { showAlert } from '../../utils/AlertHelper'
 import { useActionSheet } from '@expo/react-native-action-sheet'
 
 import { getUsers, clearUserAccount } from '../../redux/actions/UserActions'
 import { logoutUser, getUpdatedUser } from '../../redux/actions/AuthActions'
 import { getLatestTransactions } from '../../redux/actions/TransactionActions'
 import { log } from '../../utils/Logger'
-import { showAlert } from '../../utils/AlertHelper'
 
 const AdminScreen = props => {
 
@@ -28,7 +27,6 @@ const AdminScreen = props => {
         headerShown: false
     });
 
-    const [alert, setAlert] = useState(undefined)
     const [refreshing, setRefresh] = useState(false)
     const { showActionSheetWithOptions } = useActionSheet();
 
@@ -46,15 +44,15 @@ const AdminScreen = props => {
         }
         getUpdatedAdmin().then(res => {
             if (res.error)
-                setAlert(res)
+                showAlert(res.error)
         })
         getUsersFirebase().then(res => {
             if (res.error)
-                setAlert(res)
+                showAlert(res.error)
         })
         getLatestTransactions().then(res => {
             if (res.error)
-                setAlert(res)
+                showAlert(res.error)
         })
         setRefresh(false)
     }
@@ -72,20 +70,6 @@ const AdminScreen = props => {
                     refreshing={refreshing} onRefresh={onRefresh} />
             }
             style={{ flex: 1 }}>
-            {alert ? <AlertModal
-                message={alert}
-                onOkClicked={() => {
-                    setAlert(undefined)
-                    props.logoutUser()
-                        .then(res => {
-                            props.navigation.reset({ index: 0, routes: [{ name: "Login" }] })
-                        })
-                }}
-                onCancelClicked={alert.error ? null : () => {
-                    setAlert(undefined)
-                }}
-
-            /> : null}
             <AppButton
                 style={{
                     position: "absolute",
@@ -95,7 +79,12 @@ const AdminScreen = props => {
                 }}
                 title={"Logout"}
                 onPress={() => {
-                    setAlert({ success: "Are you sure you want to Logout?" })
+                    showAlert("Are you sure you want to Logout?", "Logout", true)
+                        .then(res => {
+                            if (res > 0) {
+                                props.navigation.reset({ index: 0, routes: [{ name: "Login" }] })
+                            }
+                        })
                 }}
             />
             {/**Money View */}

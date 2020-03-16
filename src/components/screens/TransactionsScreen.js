@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Button, View, StyleSheet, FlatList } from 'react-native';
+import React from 'react';
+import {
+  View,
+  FlatList
+} from 'react-native';
 import WrapperComponent from '../WrapperComponent';
 import { connect } from 'react-redux';
 import { getUsersTransactions } from '../../redux/actions/TransactionActions'
-import AlertModal from '../reusable_comp/AlertModal'
+import { showAlert } from '../../utils/AlertHelper'
 import { normalize } from '../../utils/Constants';
 import { log } from '../../utils/Logger';
 
@@ -13,7 +16,6 @@ class TransactionScreen extends React.PureComponent {
     super(props)
     this.state = {
       transactions: [],
-      alert: undefined
     }
     this.props.navigation.setOptions({
       title: "Transactions",
@@ -32,9 +34,7 @@ class TransactionScreen extends React.PureComponent {
     const userId = this.props.route.params.user.id
     const res = await this.props.getUsersTransactions(userId, this.props.page)
     if (res.error)
-      this.setState({
-        alert: res
-      })
+      showAlert(res.error)
     else {
       if (this.props.page === 1) {
         this.setState({
@@ -60,19 +60,11 @@ class TransactionScreen extends React.PureComponent {
   }
 
   render() {
-    const { alert, transactions } = this.state
+    const { transactions } = this.state
     return (
       <View style={{
         flex: 1
       }}>
-        {alert ? <AlertModal
-          message={alert}
-          onOkClicked={() => {
-            this.setState({
-              alert: undefined
-            })
-          }}
-        /> : null}
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           data={transactions}
@@ -100,7 +92,6 @@ class TransactionScreen extends React.PureComponent {
   }
 
   handleEndReached = async () => {
-    log("Value ", this.props.hasMoreItems, !this.props.loadingNextItems)
     if (this.props.hasMoreItems && !this.props.loadingNextItems) {
       await this.props.updateState({
         refreshing: false,

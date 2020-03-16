@@ -2,7 +2,6 @@ import React from 'react';
 import { Image, TouchableOpacity, View, Keyboard } from 'react-native';
 import WrapperComponent from '../WrapperComponent';
 import { normalize } from '../../utils/Constants';
-import AlertModal from '../reusable_comp/AlertModal';
 import AppTextField from '../reusable_comp/AppTextField';
 import AppButton from '../reusable_comp/AppButton';
 import ListSelectionModal from '../reusable_comp/ListSelectionModal';
@@ -11,6 +10,7 @@ import { addMoney } from '../../redux/actions/TransactionActions';
 import { connect } from 'react-redux';
 import { DatePickerDialog } from 'react-native-datepicker-dialog'
 import { log } from '../../utils/Logger';
+import { showAlert } from '../../utils/AlertHelper'
 
 class AddTransaction extends React.PureComponent {
 
@@ -24,7 +24,6 @@ class AddTransaction extends React.PureComponent {
       showModal: false,
       locations: [],
       selectedLocation: {},
-      alert: undefined
     };
 
     this.props.navigation.setOptions({
@@ -48,16 +47,6 @@ class AddTransaction extends React.PureComponent {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        {this.state.alert ? <AlertModal
-          message={this.state.alert}
-          onOkClicked={() => {
-            this.setState({
-              alert: undefined
-            }, () => {
-              this.props.navigation.goBack()
-            })
-          }}
-        /> : null}
         {this.state.showModal ? (
           <ListSelectionModal
             optionsArray={this.state.locations}
@@ -208,14 +197,11 @@ class AddTransaction extends React.PureComponent {
           error: res.error.validationMessage
         })
       else
-        this.setState({
-          alert: res
-        })
+        showAlert(res.error)
     }
     if (res.success) {
-      this.setState({
-        alert: res
-      })
+      const alertAction = await showAlert(res.success)
+      this.props.navigation.goBack();
     }
   };
 }
