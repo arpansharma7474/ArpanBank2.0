@@ -19,10 +19,12 @@ checkTransactions = async () => {
         for (let i = 0; i < result.docs.length; i++) {
             const item = result.docs[i]
             const currentDoc = database.collection("transactions").doc(item.id)
-            const res = await currentDoc.update({
-                time: item.data().date ? getMillisFromDate(item.data().date) : 1320990071000
-            })
-            console.log(res)
+            if (!item.data().time) {
+                const res = await currentDoc.update({
+                    time: item.data().date ? getMillisFromDate(item.data().date) : 1320990071000
+                })
+                console.log(res)
+            }
         }
     } catch (err) {
         console.log(err)
