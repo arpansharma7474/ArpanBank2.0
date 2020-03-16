@@ -1,9 +1,9 @@
 # ArpanBank2.0
 
 Pending issues - 
-1. Notifications : Not working for users. Working for Admin.
 2. App Icons and splash look bad.
-3. Add Money for Admin.
+3. On Hold - Add Money for Admin.
 5. User Profile.
+6. Generate Payed Request Entry in DB.
 
 
