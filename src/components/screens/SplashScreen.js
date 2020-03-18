@@ -8,8 +8,11 @@ import config from '../../utils/config'
 import { connect } from 'react-redux'
 import firebase from 'react-native-firebase';
 import { log } from 'react-native-reanimated'
+import User from '../../models/User'
 
 const SplashScreen = props => {
+
+    const user = new User(props.User)
 
     props.navigation.setOptions({
         headerShown: false
@@ -20,8 +23,8 @@ const SplashScreen = props => {
         setTimeout(() => {
             if (!appOpenedNotification) {
                 let routeName = ""
-                if (props.User.name) {
-                    if (props.User.isAdmin)
+                if (user.name) {
+                    if (user.isAdmin)
                         routeName = "Admin"
                     else
                         routeName = "UsersScreen"
@@ -108,8 +111,9 @@ setUpMessageListener = async (props) => {
 
 handleNotification = (notification, props) => {
     firebase.notifications().removeAllDeliveredNotifications();
-    if (props.User.name) {
-        if (props.User.isAdmin)
+    const user = new User(props.User)
+    if (user.name) {
+        if (user.isAdmin)
             routeName = "Admin"
         else
             routeName = "UsersScreen"

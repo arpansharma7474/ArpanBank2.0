@@ -19,6 +19,7 @@ import { logoutUser, getUpdatedUser } from '../../redux/actions/AuthActions'
 import { showAlert } from '../../utils/AlertHelper'
 import { normalize } from '../../utils/Constants'
 import { log } from '../../utils/Logger'
+import User from '../../models/User'
 
 class UsersScreen extends React.PureComponent {
 
@@ -27,6 +28,7 @@ class UsersScreen extends React.PureComponent {
         this.state = {
             refreshing: false
         }
+        this.user = new User(this.props.User)
         props.navigation.setOptions({
             headerShown: false
         });
@@ -37,8 +39,8 @@ class UsersScreen extends React.PureComponent {
     }
 
     getUpdatedUser = async () => {
-        await this.props.getUpdatedUser(this.props.User.id)
-        const res = await this.props.getUsersTransactions(this.props.User.id, this.props.page)
+        await this.props.getUpdatedUser(this.user.id)
+        const res = await this.props.getUsersTransactions(this.user.id, this.props.page)
         if (res.error)
             showAlert(res.error)
         this.props.updateState({
@@ -125,11 +127,11 @@ class UsersScreen extends React.PureComponent {
                                 color: "black",
                                 textAlign: 'center',
                                 fontFamily: "Monaco"
-                            }}>Hello {this.props.User.name}, You have following amount pending : </Text>
+                            }}>Hello {this.user.name}, You have following amount pending : </Text>
                         <Text style={[styles.money_text, {
                             marginVertical: 20,
                             fontSize: normalize(30)
-                        }]}>Rs {this.props.User.moneyOwed}</Text>
+                        }]}>Rs {this.user.moneyOwed}</Text>
                     </View>
                     {/**Transactions */}
                     <View style={[styles.main_views, {
@@ -173,7 +175,7 @@ class UsersScreen extends React.PureComponent {
     }
 
     seeAllTransactionsPressed = () => {
-        this.props.navigation.navigate("TransactionsScreen", { user: this.props.User })
+        this.props.navigation.navigate("TransactionsScreen", { user: this.user })
     }
 
     onPaidRequestClicked = async () => {

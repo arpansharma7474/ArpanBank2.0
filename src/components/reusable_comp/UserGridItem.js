@@ -45,6 +45,7 @@ export default UsersGridItem = props => {
                     style={[styles.normal_text, {
                         fontSize: normalize(10),
                         marginStart: 5,
+                        flex : 1
                     }]}>{item.name}</Text>
             </View>
             <Text style={[styles.money_text, {

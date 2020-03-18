@@ -20,6 +20,7 @@ import { getUsers, clearUserAccount } from '../../redux/actions/UserActions'
 import { logoutUser, getUpdatedUser } from '../../redux/actions/AuthActions'
 import { getLatestTransactions } from '../../redux/actions/TransactionActions'
 import { log } from '../../utils/Logger'
+import User from '../../models/User'
 
 const AdminScreen = props => {
 
@@ -40,7 +41,8 @@ const AdminScreen = props => {
             return await props.getLatestTransactions()
         }
         const getUpdatedAdmin = async () => {
-            return await props.getUpdatedUser(props.User.id)
+            const user = new User(props.User);
+            return await props.getUpdatedUser(user.id)
         }
         getUpdatedAdmin().then(res => {
             if (res.error)

@@ -59,6 +59,7 @@ export const getUpdatedUser = (userId) => {
             const firestoreRef = firebase.firestore().collection('users');
             const usersRef = await firestoreRef.where("id", "==", userId).get()
             const user = usersRef.docs[0].data()
+            log("Updated User", user)
             persistUser(dispatch, user);
             dispatch({ type: LOADING_STATUS, payload: false });
             return { success: "UPdated user found" };

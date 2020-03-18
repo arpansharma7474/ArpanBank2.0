@@ -5,7 +5,7 @@ import {
     StyleSheet
 } from 'react-native'
 import { normalize } from '../../utils/Constants'
-import { getTimeInReadableString } from '../../utils/TimeUtils'
+import { getTimeInReadableString, getOrderDateString } from '../../utils/TimeUtils'
 
 export default TransactionsItem = props => {
     const item = props.item
@@ -37,22 +37,35 @@ export default TransactionsItem = props => {
                     fontFamily: "Monaco",
                     color: 'black',
                 }}>Customer : {item.user ? item.user.name : item.fromUser}</Text>}
+                <View style={{
+                    marginTop: 5,
+                    flexDirection: 'row'
+                }}>
+                    <Text
+                        style={{
+                            fontSize: normalize(12),
+                            fontFamily: "Monaco",
+                            color: 'black',
+                        }}>Message : </Text>
+                    <Text
+                        numberOfLines={2}
+                        ellipsizeMode={"tail"}
+                        style={{
+                            flex: 1,
+                            fontSize: normalize(12),
+                            fontFamily: "Monaco",
+                            color: 'black',
+                        }}>{item.message}</Text>
+                    <Text style={[styles.text, {
+                        marginEnd: 10,
+                    }]}>Rs {item.amount}</Text>
+                </View>
                 <Text style={{
                     fontSize: normalize(12),
                     fontFamily: "Monaco",
                     color: 'black',
                     marginTop: 5
-                }}>Desc : {item.message}</Text>
-                <Text style={{
-                    fontSize: normalize(12),
-                    fontFamily: "Monaco",
-                    color: 'black',
-                    marginTop: 5
-                }}>{item.date}</Text>
-                <Text style={[styles.text, {
-                    position: 'absolute',
-                    right: 10,
-                }]}>Rs {item.amount}</Text>
+                }}>Date : {new Date(item.time).toDateString()}</Text>
             </View>
         </View>
     )
