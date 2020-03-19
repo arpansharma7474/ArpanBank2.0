@@ -30,9 +30,9 @@ class TransactionScreen extends React.PureComponent {
     });
   }
 
-  getTransactions = async () => {
+  getTransactions = async (shouldShowProgress) => {
     const userId = this.props.route.params.user.id
-    const res = await this.props.getUsersTransactions(userId, this.props.page)
+    const res = await this.props.getUsersTransactions(userId, shouldShowProgress, this.props.page)
     if (res.error)
       showAlert(res.error)
     else {
@@ -56,7 +56,7 @@ class TransactionScreen extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.getTransactions()
+    this.getTransactions(true)
   }
 
   render() {
@@ -88,7 +88,7 @@ class TransactionScreen extends React.PureComponent {
       page: 1,
       refreshing: true
     })
-    this.getTransactions()
+    this.getTransactions(false)
   }
 
   handleEndReached = async () => {
@@ -98,7 +98,7 @@ class TransactionScreen extends React.PureComponent {
         loadingNextItems: true,
         page: this.props.page + 1,
       })
-      this.getTransactions()
+      this.getTransactions(false)
     }
   }
 }

@@ -52,9 +52,10 @@ export const googleLogin = () => {
     };
 };
 
-export const getUpdatedUser = (userId) => {
+export const getUpdatedUser = (userId, shouldShowProgress) => {
     return async dispatch => {
-        dispatch({ type: LOADING_STATUS, payload: true });
+        if (shouldShowProgress)
+            dispatch({ type: LOADING_STATUS, payload: true });
         try {
             const firestoreRef = firebase.firestore().collection('users');
             const usersRef = await firestoreRef.where("id", "==", userId).get()

@@ -35,12 +35,12 @@ class UsersScreen extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.getUpdatedUser()
+        this.getUpdatedUser(true)
     }
 
-    getUpdatedUser = async () => {
-        await this.props.getUpdatedUser(this.user.id)
-        const res = await this.props.getUsersTransactions(this.user.id, this.props.page)
+    getUpdatedUser = async (shouldShowProgress) => {
+        await this.props.getUpdatedUser(this.user.id, shouldShowProgress)
+        const res = await this.props.getUsersTransactions(this.user.id, shouldShowProgress, this.props.page)
         if (res.error)
             showAlert(res.error)
         this.props.updateState({
@@ -55,7 +55,7 @@ class UsersScreen extends React.PureComponent {
         this.setState({
             refreshing: true
         }, () => {
-            this.getUpdatedUser()
+            this.getUpdatedUser(false)
         })
     }
 

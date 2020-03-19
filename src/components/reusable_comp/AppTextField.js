@@ -1,10 +1,11 @@
 import React from 'react';
-import {} from 'react-native';
-import {OutlinedTextField} from 'react-native-material-textfield';
+import { } from 'react-native';
+import { OutlinedTextField } from 'react-native-material-textfield';
 
 export default TextField = props => {
   return (
     <OutlinedTextField
+      maxLength={props.maxLength ? props.maxLength : undefined}
       ref={ref => {
         if (props.getRef) props.getRef(ref);
       }}

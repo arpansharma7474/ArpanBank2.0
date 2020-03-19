@@ -31,18 +31,18 @@ const AdminScreen = props => {
     const [refreshing, setRefresh] = useState(false)
     const { showActionSheetWithOptions } = useActionSheet();
 
-    useEffect(() => getAdminInfo(), []);
+    useEffect(() => getAdminInfo(true), []);
 
-    const getAdminInfo = () => {
+    const getAdminInfo = (shouldShowLoader) => {
         const getUsersFirebase = async () => {
-            return await props.getUsers()
+            return await props.getUsers(shouldShowLoader)
         }
         const getLatestTransactions = async () => {
-            return await props.getLatestTransactions()
+            return await props.getLatestTransactions(shouldShowLoader)
         }
         const getUpdatedAdmin = async () => {
             const user = new User(props.User);
-            return await props.getUpdatedUser(user.id)
+            return await props.getUpdatedUser(user.id, shouldShowLoader)
         }
         getUpdatedAdmin().then(res => {
             if (res.error)
@@ -61,7 +61,7 @@ const AdminScreen = props => {
 
     const onRefresh = () => {
         setRefresh(true)
-        getAdminInfo()
+        getAdminInfo(false)
     }
 
     return (
@@ -162,18 +162,6 @@ const AdminScreen = props => {
                     textAlign: "left",
                     color: "green",
                 }]}>Latest Transactions</Text>
-                {/* <AppButton
-                    style={{
-                        position: "absolute",
-                        marginVertical: 5,
-                        right: 10,
-                        padding: 5
-                    }}
-                    title={"See All"}
-                    onPress={() => {
-                        transactionsPressed(props)
-                    }}
-                /> */}
             </View>
             <FlatList
                 keyExtractor={(item, index) => index.toString()}

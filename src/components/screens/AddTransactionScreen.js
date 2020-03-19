@@ -66,6 +66,7 @@ class AddTransaction extends React.PureComponent {
         ) : null}
 
         <AppTextField
+          maxLength={3}
           keyboardType="number-pad"
           label={'Amount'}
           onChangeText={text => {

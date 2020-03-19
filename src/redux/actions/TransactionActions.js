@@ -10,9 +10,10 @@ import { getTimeFormatted } from '../../utils/TimeUtils';
 import { log } from '../../utils/Logger';
 
 /**get Latest Transactions for the Admin */
-export const getLatestTransactions = () => {
+export const getLatestTransactions = (shouldShowProgress) => {
     return async dispatch => {
-        dispatch({ type: LOADING_STATUS, payload: true });
+        if (shouldShowProgress)
+            dispatch({ type: LOADING_STATUS, payload: true });
         try {
             const firestoreRef = firebase.firestore().collection('transactions');
             const transactionsRef = await firestoreRef.orderBy("time", "desc").limit(3).get()
@@ -31,9 +32,9 @@ export const getLatestTransactions = () => {
 };
 
 /** get User transactions */
-export const getUsersTransactions = (userId, page) => {
+export const getUsersTransactions = (userId, shouldShowProgress, page) => {
     return async dispatch => {
-        if (page == 1)
+        if (page == 1 && shouldShowProgress)
             dispatch({ type: LOADING_STATUS, payload: true });
         try {
             const response = await fetch('https://us-central1-arpanbank-ac07f.cloudfunctions.net/transactions?userId=' + userId + '&page=' + page)

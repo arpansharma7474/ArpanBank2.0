@@ -11,9 +11,10 @@ const saveUsers = (dispatch, payload) => {
     dispatch({ type: GET_USERS, payload: payload });
 };
 
-export const getUsers = () => {
+export const getUsers = (shouldShowProgress) => {
     return async dispatch => {
-        dispatch({ type: LOADING_STATUS, payload: true });
+        if (shouldShowProgress)
+            dispatch({ type: LOADING_STATUS, payload: true });
         try {
             const firestoreRef = firebase.firestore().collection('users');
             const usersRef = await firestoreRef.where("moneyOwed", ">=", 1).orderBy("moneyOwed", "desc").get()
