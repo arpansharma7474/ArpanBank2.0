@@ -27,7 +27,7 @@ const SplashScreen = props => {
                     if (user.isAdmin)
                         routeName = "Admin"
                     else
-                        routeName = "UsersScreen"
+                        routeName = "Root"
                 } else
                     routeName = "Login"
                 props.navigation.reset({ index: 0, routes: [{ name: routeName }] })

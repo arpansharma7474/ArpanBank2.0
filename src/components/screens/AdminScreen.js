@@ -27,7 +27,7 @@ const AdminScreen = props => {
     props.navigation.setOptions({
         headerShown: false
     });
-
+''
     const [refreshing, setRefresh] = useState(false)
     const { showActionSheetWithOptions } = useActionSheet();
 
