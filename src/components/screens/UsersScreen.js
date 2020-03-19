@@ -99,10 +99,7 @@ class UsersScreen extends React.PureComponent {
                         }}
                         title={"Logout"}
                         onPress={() => {
-                            this.props.logoutUser()
-                                .then(res => {
-                                    this.props.navigation.reset({ index: 0, routes: [{ name: "Login" }] })
-                                })
+                            this.onLogoutPressed()
                         }}
                     />
                 </ScrollView>
@@ -179,8 +176,19 @@ class UsersScreen extends React.PureComponent {
     }
 
     onPaidRequestClicked = async () => {
-        const res = await this.props.generatePaidRequest()
-        showAlert(res.error ? res.error : res.success)
+        const alertRes = await showAlert("Do you really want to generate Paid Request?", "Paid Request", true)
+        if (alertRes > 0) {
+            const res = await this.props.generatePaidRequest()
+            showAlert(res.error ? res.error : res.success)
+        }
+    }
+
+    onLogoutPressed = async () => {
+        const alertRes = await showAlert("Are you sure you want to logout?", "Logout", true)
+        if (alertRes > 0) {
+            const res = await this.props.logoutUser()
+            this.props.navigation.reset({ index: 0, routes: [{ name: "Login" }] })
+        }
     }
 }
 
